@@ -1,0 +1,18 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        org.clojure/clojurescript {:mvn/version "1.11.60"}
+        com.google.javascript/closure-compiler-unshaded {:mvn/version "v20230103"}
+        instaparse/instaparse {:mvn/version "1.4.12"}
+        com.rpl/specter {:mvn/version "1.1.4"}}
+ :aliases {:test {:extra-paths ["test"]
+                  ;:patterns [".*"]
+                  :extra-deps {io.github.cognitect-labs/test-runner
+                               {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                                :sha "9e35c979860c75555adaff7600070c60004a0f44"}}
+                  :main-opts ["-m" "cognitect.test-runner"]
+                  :exec-fn cognitect.test-runner.api/test}
+           ; clojure -M:test:cljs to run cljs tests
+           :cljs {:extra-deps {olical/cljs-test-runner {:mvn/version "3.8.0"}}
+                  :main-opts ["-m" "cljs-test-runner.main"]}
+           :shadow {:extra-paths ["test"]
+                    :extra-deps {thheller/shadow-cljs {:mvn/version "2.20.20"}}}}}

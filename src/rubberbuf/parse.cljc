@@ -4,6 +4,7 @@
             #?(:cljs [cljs.reader :refer [read-string]])
             #?(:clj [clojure.pprint :refer [pprint]])
             [clojure.string :refer [join]]
+            #?(:clj [clojure.java.io :as io])
             #?(:clj [instaparse.core :as insta :refer [defparser]])
             #?(:cljs [instaparse.core :as insta :refer-macros [defparser]])
             [rubberbuf.parse-textformat :refer [xform-tf]]))
@@ -192,17 +193,17 @@
    "void = { #'\\s+' | #'(\\/\\*)[\\s\\S]*?(\\*\\/)' | '//' #'.*' }"))
 
 (defparser parser-2
-  (str (slurp "resources/ebnf/proto2.ebnf")
-       (slurp "resources/ebnf/textformat.ebnf"))
+  (str (slurp (io/resource "ebnf/proto2.ebnf"))
+       (slurp (io/resource "ebnf/textformat.ebnf")))
   :auto-whitespace void)
 
 (defparser parser-3
-  (str (slurp "resources/ebnf/proto3.ebnf")
-       (slurp "resources/ebnf/textformat.ebnf"))
+  (str (slurp (io/resource "ebnf/proto3.ebnf"))
+       (slurp (io/resource "ebnf/textformat.ebnf")))
   :auto-whitespace void)
 
 (defparser parser-ver
-  (slurp "resources/ebnf/protover.ebnf")
+  (slurp (io/resource "ebnf/protover.ebnf"))
   :auto-whitespace void)
 
 (defn- parse2 [text]

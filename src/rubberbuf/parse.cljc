@@ -4,7 +4,8 @@
             #?(:cljs [cljs.reader :refer [read-string]])
             #?(:clj [clojure.pprint :refer [pprint]])
             [clojure.string :refer [join]]
-            [instaparse.core :as insta :refer [parser]]
+            #?(:clj [instaparse.core :as insta :refer [defparser]])
+            #?(:cljs [instaparse.core :as insta :refer-macros [defparser]])
             [rubberbuf.parse-textformat :refer [xform-tf]]))
 
 (defn- make-msg-field [label type name fnum opts]
@@ -190,19 +191,19 @@
   (insta/parser
    "void = { #'\\s+' | #'(\\/\\*)[\\s\\S]*?(\\*\\/)' | '//' #'.*' }"))
 
-(def ^:private parser-2
-  (parser (str (slurp "resources/ebnf/proto2.ebnf")
-               (slurp "resources/ebnf/textformat.ebnf"))
-          :auto-whitespace void))
+(defparser parser-2
+  (str (slurp "resources/ebnf/proto2.ebnf")
+       (slurp "resources/ebnf/textformat.ebnf"))
+  :auto-whitespace void)
 
-(def ^:private parser-3
-  (parser (str (slurp "resources/ebnf/proto3.ebnf")
-               (slurp "resources/ebnf/textformat.ebnf"))
-          :auto-whitespace void))
+(defparser parser-3
+  (str (slurp "resources/ebnf/proto3.ebnf")
+       (slurp "resources/ebnf/textformat.ebnf"))
+  :auto-whitespace void)
 
-(def ^:private parser-ver
-  (parser (slurp "resources/ebnf/protover.ebnf")
-          :auto-whitespace void))
+(defparser parser-ver
+  (slurp "resources/ebnf/protover.ebnf")
+  :auto-whitespace void)
 
 (defn- parse2 [text]
   (let [ast (parser-2 text)

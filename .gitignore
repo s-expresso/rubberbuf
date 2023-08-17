@@ -1,4 +1,3 @@
-pom.xml
 pom.xml.asc
 *.jar
 *.class
@@ -9,6 +8,7 @@ pom.xml.asc
 /target/
 .calva
 .clj-kondo
+.cljs_node_repl/
 .cpcache/
 .lsp
 .nrepl-port

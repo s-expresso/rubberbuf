@@ -1,0 +1,12 @@
+;; src/rubberbuf/ebnf.cljc is auto-generated and resources/ebnf/enbf.cljc.template for auto-gen.
+;; If resources/ebnf/*.ebnf is updated, run clj -M:write-ebnf-cljc to re-generate.
+
+(ns rubberbuf.ebnf)
+
+(def proto2-ebnf "<PROTO2>")
+
+(def proto3-ebnf "<PROTO3>")
+
+(def protover-ebnf "<PROTOVER>")
+
+(def textformat-ebnf "<TEXTFORMAT>")

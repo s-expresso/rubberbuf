@@ -1,4 +1,4 @@
-{:paths ["src" "resources"]
+{:paths ["src"]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
         org.clojure/clojurescript {:mvn/version "1.11.60"}
         com.google.javascript/closure-compiler-unshaded {:mvn/version "v20230103"}
@@ -22,4 +22,5 @@
                     :exec-fn deps-deploy.deps-deploy/deploy
                     :exec-args {:installer :remote
                                 :sign-releases? false
-                                :artifact "target/rubberbuf-0.1.0.jar"}}}}
+                                :artifact "target/rubberbuf-0.1.0.jar"}}
+           :write-ebnf-cljc {:exec-fn rubberbuf.tool/write-ebnf-cljc}}}

@@ -7,8 +7,8 @@ rubberbuf is a Clojure(Script) library to parse protobuf definition (.proto) int
 Add the following to deps.edn (or its equivalent for lein).
 ```edn
 {:deps
- {dopperative/rubberbuf {:git/url "https://github.com/dopperative/rubberbuf"
-                         :tag "v0.1.alpha"}}}
+ {s-expresso/rubberbuf {:git/url "https://github.com/s-expresso/rubberbuf"
+                        :tag "v0.1.1"}}}
 ```
 then call `rubberbuf.core.protoc` in code
 ```clojure

@@ -1,8 +1,8 @@
 (ns rubberbuf.parse-textformat
-  (:require #?(:cljs [rubberbuf.util :include-macros true :refer [slurp]])
-            #?(:cljs [cljs.reader :refer [read-string]])
+  (:require #?(:cljs [cljs.reader :refer [read-string]])
             [clojure.string :refer [join]]
-            [instaparse.core :as insta :refer [parser]]))
+            [instaparse.core :as insta :refer [defparser]]
+            [rubberbuf.ebnf :refer [textformat-ebnf]]))
 
 (def ^:private void
   "Matches whitespaces and comments; to be used as :auto-whitespace param when
@@ -10,10 +10,10 @@
   (insta/parser
    "void = { #'\\s+' | '#' #'.*' }"))
 
-(def ^:private parser-tf
-  (parser (slurp "resources/ebnf/textformat.ebnf")
-          :auto-whitespace void
-          :start :tf_Field))
+(defparser parser-tf
+  textformat-ebnf
+  :auto-whitespace void
+  :start :tf_Field)
 
 (defn merge-tuple-into-map
   "(merge-tuple-into-map {}           [:a 4])       => {:a [4]}

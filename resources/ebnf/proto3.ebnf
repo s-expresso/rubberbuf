@@ -1,3 +1,4 @@
+
 proto = syntax { import | package | option | message | enum | extend | service | <emptyStatement> };
 
 octalDigit3  = #'[0-7][0-7][0-7]';

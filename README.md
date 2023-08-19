@@ -8,7 +8,7 @@ Add the following to deps.edn (or its equivalent for lein).
 ```edn
 {:deps
  s-expresso/rubberbuf {:git/url "https://github.com/s-expresso/rubberbuf.git"
-                       :git/sha ""
+                       :git/sha "a8f433f35bcf66a5afac971f5caae8f4e710c288"
                        :git/tag "v0.1.2"}}
 ```
 then in code

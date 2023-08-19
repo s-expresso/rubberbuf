@@ -8,16 +8,22 @@ Add the following to deps.edn (or its equivalent for lein).
 ```edn
 {:deps
  s-expresso/rubberbuf {:git/url "https://github.com/s-expresso/rubberbuf.git"
-                       :git/sha "f1673f0d21fbe1a1e829020f39e59072da29343e"
-                       :git/tag "v0.1.1"}}
+                       :git/sha ""
+                       :git/tag "v0.1.2"}}
 ```
-then call `rubberbuf.core.protoc` in code
+then in code
 ```clojure
-(ns example.core
+(ns my-ns
   (:require [rubberbuf.core :refer [protoc]]))
 
+; optionally add tap to be notified of compilation progress
+;(add-tap println)
+
+; :auto-import and :normalize both default to true if omitted
 (protoc ["/path/to/protobuf1/", "/path/to/protobuf2/"] ; paths
-        ["file1.proto" "file2.proto"]) ; files
+        ["file1.proto" "file2.proto"]                  ; files
+        ; :auto-import true, :normalize true
+        ) 
 ```
 produces a registry of AST, i.e. map of file name to AST
 ```edn
@@ -28,12 +34,16 @@ produces a registry of AST, i.e. map of file name to AST
                 [:package "x.y.z"] ...]
  "file3.proto" [...]}
 ```
-Note rubberbuf will recursively load all imports and append them to the registry. Hence in above example the registry also contains `file3.proto` because `file1.proto` imported it.
+Note
+* `:auto-import true` instructs `protoc` to recursively load all imports
+* hence `file3.proto` is in registry because `file1.proto` imported it
+* if `file3.proto` imports another file, it will also appear in the registry
+* circular import is ok
 
 ## AST Format
-rubberbuf's AST format follows the original protocol buffer definition closely and only adds some keywords or substitute some protobuf syntaxes with keywords. Interpretation of the AST is hence obvious and you can easily figure it out.
+rubberbuf's AST format follows the original protocol buffer definition closely and only adds some keywords or substitute some protobuf syntaxes with keywords. Interpretation of the AST should be simple and easy.
 
-Some note worthy features are shown using example below.
+Some less obvious features are shown using example below.
 ```protobuf
 // content of example.proto
 syntax = 'proto2';
@@ -80,12 +90,20 @@ will yield
       [:field+ :optional :bool "my.package.ns/MsgA.ext_1" 1000 nil]]
     [:field :repeated "my.package.ns/MsgA.MsgB" "field_a3" 3 nil]]]}
 ```
-with the the following note worthy characteristics:
+With the following note worthy characteristics:
 * `[:field ...]` and `[:enumField ...]` has a `nil` at the end if it has no field option
-* for `[:field ...]` of primitive type you see a keyword like `:sint32`
-* for `[:field ...]` of message/enum type you see a string like `"my.package.ns/Enm1"`, which is longer than original text `Enm1` in protobuf because it is resolved to a fully qualified message/enum name.
-* content of `extend` is injected into the target message as `[:field+ ...]`
+* `[:field ...]` of primitive type uses a keyword like `:sint32`
+* `[:field ...]` of message/enum type uses string like `"MsgA"` 
+
+And the following are due to `:normalize true`
+* `[:field ...]` of message/enum type resolved to a fully qualified name like `"my.package.ns/Enm1"`
+* `[:field+ ...]` is injected into message from field inside `extend` 
+* `[:field+ ...]` name `"my.package.ns/MsgA.ext_1"` follows google's naming convention; long and verbose but an necessary evil to avoid name collision
 * `extend` is removed from AST since already injected
+
+## AST Transformation
+`rubberbuf.ast-postprocessing` provides transformation function that can be applied to above output.
+* unnest: nested message/enum are extracted out to top level, with its name replaced with a scoped name (.e.g `MsgA.MsgB.MsgC`)
 
 ## Unsupported feature
 * protobuf `group` type (deprecated by google)

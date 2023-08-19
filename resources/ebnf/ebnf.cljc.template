@@ -1,5 +1,5 @@
 ;; src/rubberbuf/ebnf.cljc is auto-generated and resources/ebnf/enbf.cljc.template for auto-gen.
-;; If resources/ebnf/*.ebnf is updated, run clj -M:write-ebnf-cljc to re-generate.
+;; If resources/ebnf/*.ebnf is updated, run `clj -X:write-ebnf-cljc` to re-generate.
 
 (ns rubberbuf.ebnf)
 

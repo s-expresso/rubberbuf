@@ -1,4 +1,5 @@
-;; This file is auto-generated. Do not edit this directly. Instead, edit ebnf files and run rubberbuf.tool.write-ebnf-cljc
+;; src/rubberbuf/ebnf.cljc is auto-generated and resources/ebnf/enbf.cljc.template for auto-gen.
+;; If resources/ebnf/*.ebnf is updated, run `clj -X:write-ebnf-cljc` to re-generate.
 
 (ns rubberbuf.ebnf)
 

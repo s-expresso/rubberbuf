@@ -1,12 +1,11 @@
 (ns rubberbuf.tool
-  (:require [clojure.core :refer [spit]]
-            [rubberbuf.util :refer [slurp]]))
+  (:require [clojure.core :refer [slurp spit]]))
 
 (defn escape-ebnf [ebnf]
   (clojure.string/escape ebnf {\" "\\\\\""
                                \\ "\\\\\\\\"}))
 
-(defn write-ebnf-cljc []
+(defn write-ebnf-cljc [& opts] ; dummy opts for keyword args supplied via clj -X
   (let [p2 (escape-ebnf (slurp "resources/ebnf/proto2.ebnf"))
         p3 (escape-ebnf (slurp "resources/ebnf/proto3.ebnf"))
         pv (escape-ebnf (slurp "resources/ebnf/protover.ebnf"))

@@ -1,7 +1,9 @@
 rubberbuf
 =========
 
-rubberbuf is a Clojure(Script) library to parse protobuf definition (.proto) into abstract syntax tree (AST). If you want to use Clojure(Script) to transpile protobuf definitions into other langs like C/C++, Java, Python, etc, or to dynamically read/analyze protobuf definitions, then rubberbuf might just be the library for you.
+rubberbuf is a clojure(script) library to parse protobuf definition (.proto) into abstract syntax tree (AST).
+
+It can be used to develop tools or libraries that transpile protobuf definitions into other langs like C/C++, Java, Python, etc, or to dynamically read/analyze protobuf definitions.
 
 ## Usage
 Add the following to deps.edn (or its equivalent for lein).

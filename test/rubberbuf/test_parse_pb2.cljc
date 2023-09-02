@@ -24,9 +24,17 @@
 (def pb2_int_literals "
   syntax = 'proto2';
   enum E {
-        DEC_20 = 20;
-        HEX_20 = 0x20;
-        OCT_20 = 020;
+        DEC_20  = 20;
+        HEX_20  = 0x20;
+        OCT_20  = 020;
+
+        DEC_20p = +20;
+        HEX_20p = +0x20;
+        OCT_20p = +020;
+
+        DEC_20s = -20;
+        HEX_20s = -0x20;
+        OCT_20s = -020;
   }
 
   message M {
@@ -37,9 +45,15 @@
 
 (def pb2_int_literals_ast [[:syntax "proto2"]
                            [:enum "E"
-                            [:enumField "DEC_20" 20 nil]
-                            [:enumField "HEX_20" 32 nil]
-                            [:enumField "OCT_20" 16 nil]]
+                            [:enumField "DEC_20"   20 nil]
+                            [:enumField "HEX_20"   32 nil]
+                            [:enumField "OCT_20"   16 nil]
+                            [:enumField "DEC_20p"  20 nil]
+                            [:enumField "HEX_20p"  32 nil]
+                            [:enumField "OCT_20p"  16 nil]
+                            [:enumField "DEC_20s" -20 nil]
+                            [:enumField "HEX_20s" -32 nil]
+                            [:enumField "OCT_20s" -16 nil]]
                            [:message "M"
                             [:field :optional :int32 "dec_20" 20 nil]
                             [:field :optional :int32 "hex_20" 32 nil]

@@ -33,6 +33,7 @@ extensions = <'extensions'> ranges <';'>;
 label = 'required' | 'optional' | 'repeated';
 
 intLit     = decimalLit | octalLit | hexLit;
+sintLit    = ( [ '-' | '+' ] intLit );
 decimalLit = #'[1-9][0-9]*';
 octalLit   = #'0[0-7]*';
 hexLit     = #'(0x|0X)[0-9a-fA-F][0-9a-fA-F]*';
@@ -94,7 +95,7 @@ reserved-names = <'reserved'> strFieldNames <';'>;
 
 enum = <'enum'> enumName enumBody;
 <enumBody> = <'{'> { option | enumField | reserved | <emptyStatement> } <'}'>;
-enumField = ident <'='> intLit [ <'['> fieldOptions <']'> ]<';'>;
+enumField = ident <'='> sintLit [ <'['> fieldOptions <']'> ]<';'>;
 
 message = <'message'> messageName messageBody;
 (* proto2 only: extensions, group *)
@@ -136,6 +137,7 @@ extend = <'extend'> messageType <'{'> {field | <emptyStatement>} <'}'>;
 label = [ 'optional' | 'repeated' ];
 
 intLit     = decimalLit | octalLit | hexLit;
+sintLit    = ( [ '-' | '+' ] intLit );
 decimalLit = #'[1-9][0-9]*';
 octalLit   = #'0[0-7]*';
 hexLit     = #'(0x|0X)[0-9a-fA-F][0-9a-fA-F]*';
@@ -200,7 +202,7 @@ reserved-names = <'reserved'> strFieldNames <';'>;
 
 enum = <'enum'> enumName enumBody;
 <enumBody> = <'{'> { option | enumField | reserved | <emptyStatement> } <'}'>;
-enumField = ident <'='> intLit [ <'['> fieldOptions <']'> ]<';'>;
+enumField = ident <'='> sintLit [ <'['> fieldOptions <']'> ]<';'>;
 
 message = <'message'> messageName messageBody;
 <messageBody> = <'{'> { field | enum | message | extend | option | oneof | mapField |

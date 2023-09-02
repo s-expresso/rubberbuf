@@ -148,6 +148,7 @@
     :octalLit read-string
     :hexLit read-string
     :intLit identity
+    :sintLit (fn ([i] i) ([sign i] (if (= sign "-") (- i) i)))
     ; string literals
     :hexDigit2 identity
     :hexEscape #(char (parseInt % 16))

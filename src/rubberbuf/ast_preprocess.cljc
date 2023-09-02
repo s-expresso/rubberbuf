@@ -2,7 +2,7 @@
   (:require [clojure.walk :refer [postwalk]]
             [com.rpl.specter :refer [collect collect-one cond-path declarepath if-path multi-path must nthpath providepath putval recursive-path select setval srange-dynamic subselect transform transformed
                                      ALL ALL-WITH-META END FIRST INDEXED-VALS LAST MAP-VALS NONE STAY STOP]]
-            [rubberbuf.ast-util :refer [dot-split ext? field? import? grp? msg? msg-enm-grp-pkg-ext? pkg? ref-by? rpc? slashdot-join starts-with?]]
+            [rubberbuf.ast-util :refer [dot-split ext? field? import? grp? map-field? msg? msg-enm-grp-pkg-ext? pkg? ref-by? rpc? slashdot-join starts-with?]]
             [rubberbuf.util :refer [raise]]))
 
 ;; ------------------------------------------------------------------------------------------------
@@ -160,6 +160,7 @@
                   (cond-path msg? [(collect-one (nthpath 1)) ALL-WITH-META p]
                              grp? [(collect-one (nthpath 2)) ALL-WITH-META p]
                              field? [(nthpath 2) string? STAY]
+                             map-field? [(nthpath 2) string? STAY]
                              rpc? [(multi-path [(nthpath 2) string? STAY]
                                                [(nthpath 3) string? STAY])]
                              sequential? [ALL-WITH-META p])))

@@ -15,6 +15,7 @@
 (defn msg-enm-grp? [form]     (seq-type-of? form :message :enum :group))
 (defn unnestable? [form] (not (seq-type-of? form :message :enum :extend)))
 (defn field? [form]           (seq-type-of? form :field))
+(defn map-field? [form]       (seq-type-of? form :mapField))
 (defn rpc? [form]             (seq-type-of? form :rpc))
 
 (defn starts-with? [x & {:keys [num-element]}] #(and (seqable? %)

@@ -12,7 +12,8 @@
                              [:message "msgA" [:field nil :uint32 1 nil]]
                              [:field :optional "msgA" "msgX_val" 1 nil]
                              [:field :optional "msgB" "msgY_val" 2 nil]
-                             [:field :optional "msg2.msgB" "msgZ_val" 3 nil]]
+                             [:field :optional "msg2.msgB" "msgZ_val" 3 nil]
+                             [:mapField :sint64 "msgA" "sint64_msg" 4 nil]]
                             [:message "msgA"] [:message "msgB"]]
                 "p2.proto" [[:syntax "proto3"]
                             [:package "a.b.c"]
@@ -23,6 +24,7 @@
                              [:field :optional "msgA" "msgX_val" 1 nil]
                              [:field :optional "msgB" "msgY_val" 2 nil]
                              [:field :optional "msg1.msgA" "msgX_val" 3 nil]
+                             [:mapField :sint64 "msgA" "sint64_msg" 4 nil]
                              [:extend "msg2"
                               [:field :optional "msgB" "msgB_val" 101]]]
                             [:message "msgA"] [:message "msgB"]
@@ -37,7 +39,7 @@
                             [:message "msgB"]]})
 
 (def pb3_rast1_referables [["p1.proto" [[1 :package "a.b.c"] [4 :message "msg1" [2 :message "msgA"]] [5 :message "msgA"] [6 :message "msgB"]]]
-                           ["p2.proto" [[1 :package "a.b.c"] [4 :message "msg2" [2 :message "msgB"] [6 :extend "msg2"]] [5 :message "msgA"] [6 :message "msgB"]]]
+                           ["p2.proto" [[1 :package "a.b.c"] [4 :message "msg2" [2 :message "msgB"] [7 :extend "msg2"]] [5 :message "msgA"] [6 :message "msgB"]]]
                            ["p3.proto" [[1 :message "msg1"] [2 :message "msg2"] [3 :message "msgA"] [4 :message "msgB"]]]])
 
 (def pb3_rast1_lookup {"msg1" [["p1.proto" ["a.b.c" "msg1"] [4]]
@@ -61,7 +63,8 @@
                 [:message "msgA" [:field nil :uint32 1 nil]]
                 [:field :optional "a.b.c/msg1.msgA" "msgX_val" 1 nil]
                 [:field :optional "a.b.c/msgB"      "msgY_val" 2 nil]
-                [:field :optional "a.b.c/msg2.msgB" "msgZ_val" 3 nil]]
+                [:field :optional "a.b.c/msg2.msgB" "msgZ_val" 3 nil]
+                [:mapField :sint64 "a.b.c/msg1.msgA" "sint64_msg" 4 nil]]
                [:message "msgA"]
                [:message "msgB"]],
    "p2.proto" [[:syntax "proto3"]
@@ -73,6 +76,7 @@
                 [:field :optional "a.b.c/msgA"      "msgX_val" 1 nil]
                 [:field :optional "a.b.c/msg2.msgB" "msgY_val" 2 nil]
                 [:field :optional "a.b.c/msg1.msgA" "msgX_val" 3 nil]
+                [:mapField :sint64 "a.b.c/msgA" "sint64_msg" 4 nil]
                 [:extend "msg2"
                  [:field :optional "a.b.c/msg2.msgB" "msgB_val" 101]]]
                [:message "msgA"]

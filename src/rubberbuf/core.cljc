@@ -2,10 +2,18 @@
   (:require
    [clojure.core :refer [tap>]]
    [com.rpl.specter :refer [ALL LAST select]]
+   [instaparse.core :refer [failure? get-failure]]
+   [instaparse.failure :refer [augment-failure]]
    [rubberbuf.ast-preprocess :as preprocess]
    [rubberbuf.ast-util :refer [import?]]
    [rubberbuf.parse :refer [parse]]
    [rubberbuf.util :refer [loader raise]]))
+
+(defn- parse- [pb-text filename]
+  (let [ast (parse pb-text)]
+    (if (failure? ast)
+      (raise (str filename ": " (-> ast get-failure (augment-failure pb-text) print with-out-str)))
+      ast)))
 
 (defn- protoc-
   [paths files loader auto-import registry]
@@ -14,7 +22,7 @@
                    (let [pb-text (some #(loader (str % file)) paths)]
                      (if (nil? pb-text)
                        (raise (str "File not found: " file))
-                       (parse pb-text)))))
+                       (parse- pb-text file)))))
         registry (conj registry (zipmap files asts))
         imports #(select [ALL ALL import? LAST] asts) ; wrap in lambda to defer execution
         new-files (if (true? auto-import)
@@ -22,7 +30,6 @@
                     [])]
     (if (empty? new-files) registry
         (protoc- paths new-files loader auto-import registry)))) ; recur
-
 
 (defn protoc
   "Protobuf compiler that returns a registry of {file => AST}. Sample usage:   

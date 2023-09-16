@@ -111,7 +111,7 @@ And the following are due to `:normalize true`
 * protobuf `group` type (deprecated by google)
 
 ## Known Issues
-* no checking of contextual error, i.e. no checking that same field number/name is reused in the same message, etc.
+* no checking of semantic error (yet), i.e. no checking that same field number/name is reused in the same message, etc.
 * some types of protobuf syntax error can trick parser into looping indefinitely until out of memory
 
 Above issues imply rubberbuf is not ready to be used as a standalone transpiler, but the issues can be worked around by using google's protoc (protocol buffer compiler) to validate the protobuf files before feeding into rubberbuf. This isn't ideal, but is a reasonable workaround especially if the need to invoke googles' protoc compiler already pre-exists.

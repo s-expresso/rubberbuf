@@ -9,6 +9,7 @@
 (defn msg? [form]             (seq-type-of? form :message))
 (defn grp? [form]             (seq-type-of? form :group))
 (defn enm? [form]             (seq-type-of? form :enum))
+(defn oneof? [form]           (seq-type-of? form :oneof))
 (defn ext? [form]             (seq-type-of? form :extend))
 (defn pkg? [form]             (seq-type-of? form :package))
 (defn import? [form]          (seq-type-of? form :import))
@@ -16,6 +17,7 @@
 (defn unnestable? [form] (not (seq-type-of? form :message :enum :extend)))
 (defn field? [form]           (seq-type-of? form :field))
 (defn map-field? [form]       (seq-type-of? form :mapField))
+(defn oneof-field? [form]     (seq-type-of? form :oneofField))
 (defn rpc? [form]             (seq-type-of? form :rpc))
 
 (defn starts-with? [x & {:keys [num-element]}] #(and (seqable? %)

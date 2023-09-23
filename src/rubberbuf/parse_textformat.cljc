@@ -1,7 +1,8 @@
 (ns rubberbuf.parse-textformat
   (:require #?(:cljs [cljs.reader :refer [read-string]])
+            #?(:cljs [instaparse.core :as insta :refer-macros [defparser]])
+            #?(:clj [instaparse.core :as insta :refer [defparser]])
             [clojure.string :refer [join]]
-            [instaparse.core :as insta :refer [defparser]]
             [rubberbuf.ebnf :refer [textformat-ebnf]]))
 
 (def ^:private void

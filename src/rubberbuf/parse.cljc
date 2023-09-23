@@ -1,7 +1,8 @@
 (ns rubberbuf.parse
   (:require #?(:cljs [cljs.reader :refer [read-string]])
+            #?(:cljs [instaparse.core :as insta :refer-macros [defparser]])
+            #?(:clj [instaparse.core :as insta :refer [defparser]])
             [clojure.string :refer [join]]
-            [instaparse.core :as insta :refer [defparser]]
             [rubberbuf.parse-textformat :refer [xform-tf]]
             [rubberbuf.ebnf :refer [proto2-ebnf proto3-ebnf protover-ebnf textformat-ebnf]]))
 

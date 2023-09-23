@@ -10,8 +10,8 @@ Add the following to deps.edn (or its equivalent for lein).
 ```edn
 {:deps
  s-expresso/rubberbuf {:git/url "https://github.com/s-expresso/rubberbuf.git"
-                       :git/sha "639eae93fa5e6c15d227e3293954c312c18b96ef"
-                       :git/tag "v0.1.5"}}
+                       :git/sha "38b9e6929a2b4791eca2c080e735ba398e4ffe69"
+                       :git/tag "v0.1.6"}}
 ```
 then in code
 ```clojure

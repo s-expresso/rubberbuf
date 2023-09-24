@@ -135,7 +135,7 @@
 (def pb3_rast2_lookup     (referables->lookup  pb3_rast2_referables))
 (def pb3_rast2_extends    (referables->extends pb3_rast2_referables))
 
-(deftest test-p3-rast3
+(deftest test-p3-rast2
   (is (= pb3_rast2_extended (rast->rast-extended pb3_rast2
                                                  pb3_rast2_lookup
                                                  pb3_rast2_extends))))

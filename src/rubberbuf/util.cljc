@@ -1,4 +1,5 @@
-(ns rubberbuf.util)
+(ns rubberbuf.util
+  #?(:cljs (:require [cljs-node-io.core :as io])))
 
 (defn raise [err-txt]
   #?(:clj (throw (Exception. err-txt)))
@@ -7,4 +8,5 @@
 (defn loader [file]
   #?(:clj (try (slurp file)
                (catch Exception _ nil)))
-  #?(:cljs (raise "loader not implemented")))
+  #?(:cljs (try (io/slurp file)
+                (catch js/Error _ nil))))

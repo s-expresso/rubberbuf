@@ -5,24 +5,31 @@
         instaparse/instaparse {:mvn/version "1.4.12"}
         com.rpl/specter {:mvn/version "1.1.4"}
         com.github.pkpkpk/cljs-node-io {:mvn/version "2.0.339"}}
- :aliases {:test {:extra-paths ["test"]
-                  ;:patterns [".*"]
-                  :extra-deps {io.github.cognitect-labs/test-runner
-                               {:git/url "https://github.com/cognitect-labs/test-runner.git"
-                                :sha "9e35c979860c75555adaff7600070c60004a0f44"}}
-                  :main-opts ["-m" "cognitect.test-runner"]
-                  :exec-fn cognitect.test-runner.api/test}
-           ; clojure -M:test:cljs to run cljs tests
+ :aliases {:test {:extra-paths ["test" "resources"]
+                  :dirs ["test"]}
+
+           ; clj -M:test:runner
+           :runner {:extra-deps {io.github.cognitect-labs/test-runner
+                                 {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                                  :sha "9e35c979860c75555adaff7600070c60004a0f44"}}
+                    :main-opts ["-m" "cognitect.test-runner"]
+                    :exec-fn cognitect.test-runner.api/test}
+
+           ; clj -M:test:cljs to run cljs tests
            :cljs {:extra-deps {olical/cljs-test-runner {:mvn/version "3.8.0"}}
                   :main-opts ["-m" "cljs-test-runner.main"]}
+
            :shadow {:extra-paths ["test"]
                     :extra-deps {thheller/shadow-cljs {:mvn/version "2.20.20"}}}
+
            :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.3"}}
                    :ns-default build}
+
            :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "0.2.0"}}
                     :exec-fn deps-deploy.deps-deploy/deploy
                     :exec-args {:installer :remote
                                 :sign-releases? false
                                 :artifact "target/rubberbuf-0.1.0.jar"}}
+
            :write-ebnf-cljc {:exec-fn rubberbuf.tool/write-ebnf-cljc
                              :exec-args nil}}}

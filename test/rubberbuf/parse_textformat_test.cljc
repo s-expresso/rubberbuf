@@ -1,4 +1,4 @@
-(ns rubberbuf.test-parse-textformat
+(ns rubberbuf.parse-textformat-test
   (:require [rubberbuf.parse-textformat :refer [parse]]
             [clojure.test :refer [is deftest run-tests]]))
 
@@ -91,5 +91,3 @@
   (is (= (parse "xyz: {a: 1, a: [2, 3]}") ["xyz" {"a" [1 2 3]}]))
   (is (= (parse "xyz: {a: [1, 2], a: 3}") ["xyz" {"a" [1 2 3]}]))
   (is (= (parse "xyz: {a: [1], a: [2, 3]}") ["xyz" {"a" [1 2 3]}])))
-
-(run-tests)

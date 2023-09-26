@@ -1,4 +1,4 @@
-(ns rubberbuf.test-readme-example
+(ns rubberbuf.readme-example-test
   (:require [rubberbuf.ast-preprocess :refer [normalize]]
             [rubberbuf.parse :refer [parse]]
             [clojure.test :refer [is deftest run-tests]]))
@@ -49,5 +49,3 @@ message MsgA {
 (deftest test-readme-example
   (is (= (normalize {"pb2_example.proto" (parse pb2_example)}) pb2_example_rast)))
 
-
-(run-tests)

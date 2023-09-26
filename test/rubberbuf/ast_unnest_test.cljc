@@ -1,4 +1,4 @@
-(ns rubberbuf.test-ast-preprocess
+(ns rubberbuf.ast-unnest-test
   (:require [rubberbuf.ast-postprocess :refer [unnest]]
             [clojure.test :refer [is deftest run-tests]]))
 
@@ -28,5 +28,3 @@
 
 (deftest test-p3-rast1
   (is (= pb3_rast1_unnested (unnest pb3_rast1))))
-
-(run-tests)

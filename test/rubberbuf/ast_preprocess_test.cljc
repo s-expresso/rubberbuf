@@ -1,4 +1,4 @@
-(ns rubberbuf.test-ast-preprocess
+(ns rubberbuf.ast-preprocess-test
   (:require [rubberbuf.ast-preprocess :refer [rast->rast-extended rast->rast-resolved rast->msg-fields rast->referables referables->extends referables->lookup]]
             [clojure.test :refer [is deftest run-tests]]))
 
@@ -203,5 +203,3 @@
   (is (= pb3_rast3          pb3_rast3_resolved)) ; no difference because all fields are primitive types only
   (is (= pb3_rast3_extended (rast->rast-extended pb3_rast3 pb3_rast3_lookup
                                                  pb3_rast3_extends))))
-
-(run-tests)

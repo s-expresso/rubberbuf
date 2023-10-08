@@ -3,7 +3,7 @@
             [clojure.test :refer [is deftest run-tests]]))
 
 (defn p3 [pb-text ast]
-  (is (= (parse (str "syntax = 'proto3';\n" pb-text)) (conj [[:syntax "proto3"]] ast))))
+  (is (= (parse (str " syntax = 'proto3';\n" pb-text)) (conj [[:syntax "proto3"]] ast))))
 
 (deftest test-p3-top-level
   (is (= (parse "syntax = 'proto3';") [[:syntax "proto3"]]))
@@ -221,6 +221,7 @@ message msg {
     double double_val = 1;
   }
   optional inner_msg msg_val = 2;
+  optional .msg.inner_msg msg_val2 = 3;
 }
 ")
 
@@ -230,7 +231,8 @@ message msg {
     [:field nil :double "double_val" 1 nil]
     [:message "inner_msg"
      [:field nil :double "double_val" 1 nil]]
-    [:field :optional "inner_msg" "msg_val" 2 nil]]])
+    [:field :optional "inner_msg" "msg_val" 2 nil]
+    [:field :optional ".msg.inner_msg" "msg_val2" 3 nil]]])
 
 ;-------------------------------------------------------------------------------
 (def pb3_extend "

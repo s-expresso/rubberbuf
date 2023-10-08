@@ -106,14 +106,23 @@
    @param package: e.g \"a.b.c.d\"\n
    @param target: e.g. [\"MsgA\" \"MsgB\" \"c.d.MsgX.Message\"]"
   [lookup package target]
-  (let [target-nsname (dot-split (last target)) ; [c d MsgX Message]
-        target-nest-path (drop-last target)     ; [MsgA MsgB]
-        package (dot-split package)             ; [a b c d]
-        package+target-nest-path (into package target-nest-path) ; [a b c d MsgA MsgB]
-        name-matches (get lookup (last target-nsname))
-        targets (filter #(ref-by? package+target-nest-path target-nsname (into (-> % (nth 1) (nth 0) dot-split)
-                                                                               (->> (nth % 1) (drop 1)))) name-matches)]
-    targets))
+  (if (clojure.string/starts-with? (last target) ".") ; fully qualified message name
+    (let [target-nsname (dot-split (last target))     ; [c d MsgX Message]
+          name-matches (get lookup (last target-nsname))
+          targets (filter #(= (drop 1 target-nsname)
+                              (into (-> % (nth 1) (nth 0) dot-split) ; package
+                                    (->> (nth % 1) (drop 1)))) name-matches)]
+      targets)
+    (let [target-nsname (dot-split (last target)) ; [c d MsgX Message]
+          target-nest-path (drop-last target)     ; [MsgA MsgB]
+          package (dot-split package)             ; [a b c d]
+          package+target-nest-path (into package target-nest-path) ; [a b c d MsgA MsgB]
+          name-matches (get lookup (last target-nsname))
+          targets (filter #(ref-by? package+target-nest-path target-nsname
+                                    (into (-> % (nth 1) (nth 0) dot-split) ; package
+                                          (->> (nth % 1) (drop 1))))
+                          name-matches)]
+      targets)))
 
 (defn find-target
   "@param lookup/package/target: see find-targets

@@ -19,7 +19,8 @@ oneofName = ident;
 mapName = ident;
 serviceName = ident;
 rpcName = ident;
-messageType = [ '.' ] { ident '.' } messageName;
+(* messageType = [ '.' ] { ident '.' } messageName; *)
+messageType = #'^((\\.[A-Za-z_][A-Za-z0-9_]*)|[A-Za-z_][A-Za-z0-9_]*)(\\.[A-Za-z_][A-Za-z0-9_]*)*';
 
 (* proto2 only *)
 streamName = ident;
@@ -129,7 +130,8 @@ oneofName = ident;
 mapName = ident;
 serviceName = ident;
 rpcName = ident;
-messageType = [ '.' ] { ident '.' } messageName;
+(* messageType = [ '.' ] { ident '.' } messageName; *)
+messageType = #'^((\\.[A-Za-z_][A-Za-z0-9_]*)|[A-Za-z_][A-Za-z0-9_]*)(\\.[A-Za-z_][A-Za-z0-9_]*)*';
 
 extend = <'extend'> messageType <'{'> {field | <emptyStatement>} <'}'>;
 

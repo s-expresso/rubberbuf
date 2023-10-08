@@ -243,6 +243,7 @@ message msg {
     required double double_val = 1;
   }
   optional inner_msg msg_val = 2;
+  optional .msg.inner_msg msg_val2 = 3;
 }
 ")
 
@@ -252,7 +253,8 @@ message msg {
     [:field :required :double "double_val" 1 nil]
     [:message "inner_msg"
      [:field :required :double "double_val" 1 nil]]
-    [:field :optional "inner_msg" "msg_val" 2 nil]]])
+    [:field :optional "inner_msg" "msg_val" 2 nil]
+    [:field :optional ".msg.inner_msg" "msg_val2" 3 nil]]])
 
 ;-------------------------------------------------------------------------------
 (def pb2_extend "

@@ -18,8 +18,8 @@
 (defn- make-enum-field [name fnum opts]
   [:enumField       name fnum opts])
 
-(defn- make-rpc [name input output opts]
-  [:rpc      name input output (if (empty? opts) nil (into [] opts))])
+(defn- make-rpc [name ilabel input olabel output opts]
+  [:rpc      name ilabel input olabel output (if (empty? opts) nil (into [] opts))])
 
 (defn- make-message [name body]
   (into [:message name] body))
@@ -36,6 +36,10 @@
 (defn- xform-label
   ([] [:label nil])
   ([form] [:label (keyword form)]))
+
+(defn- xform-rpc-label
+  ([] nil)
+  ([form] (keyword form)))
 
 (defn- xform-message-field
   "xform ... of [:field ...] where ...
@@ -98,11 +102,11 @@
 
 (defn- xform-rpc
   "xform ... of [:rpc ...] where ...
-    :Rpc2 :Msg1 :Msg2
+    \"Rpc2\" :stream \"Msg1`\" :stream \"Msg2\"
     [:option :java_compiler \"javac\"]
     [:option :whatever false]"
-  ([[_ a1] a2 a3 & opts]
-   (make-rpc a1 a2 a3 opts)))
+  ([[_ a1] a2 a3 a4 a5 & opts]
+   (make-rpc a1 a2 a3 a4 a5 opts)))
 
 (defn- xform-group
   "xfrom ... of [:group ...] where ... =
@@ -139,6 +143,7 @@
     :oneofName identity
     ; syntax type
     :label xform-label
+    :rpcLabel xform-rpc-label
     :fullIdent str
     :keyType keyword
     :priType keyword

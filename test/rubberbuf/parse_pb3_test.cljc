@@ -258,6 +258,7 @@ service svc {
     option deprecated = true;
   }
   rpc method2(nested.ReqXYZ) returns (nested.RespXYZ);
+  rpc method3(stream nested.ReqXYZ) returns (stream nested.RespXYZ);
 }
 ")
 
@@ -265,8 +266,9 @@ service svc {
   [[:syntax "proto3"]
    [:service "svc"
     [:option "deprecated" :true]
-    [:rpc "method1" "ReqABC" "RespABC" [[:option "deprecated" :true]]]
-    [:rpc "method2" "nested.ReqXYZ" "nested.RespXYZ" nil]]])
+    [:rpc "method1" nil "ReqABC" nil "RespABC" [[:option "deprecated" :true]]]
+    [:rpc "method2" nil "nested.ReqXYZ" nil "nested.RespXYZ" nil]
+    [:rpc "method3" :stream "nested.ReqXYZ" :stream "nested.RespXYZ" nil]]])
 
 ;-------------------------------------------------------------------------------
 

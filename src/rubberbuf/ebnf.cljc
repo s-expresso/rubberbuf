@@ -108,8 +108,9 @@ option | oneof | mapField | reserved | <emptyStatement> } <'}'>;
 service = <'service'> serviceName <'{'> { option | rpc | stream | <emptyStatement> } <'}'>;
 
 returnType = messageType;
-rpc = <'rpc'> rpcName <'('> messageType <')'> <'returns'> <'('> 
-      returnType <')'> (( <'{'> { option | <emptyStatement> } <'}'> ) | <';'> );
+rpcLabel = ['stream'];
+rpc = <'rpc'> rpcName <'('> rpcLabel messageType <')'> <'returns'> <'('> 
+              rpcLabel returnType <')'> (( <'{'> { option | <emptyStatement> } <'}'> ) | <';'> );
 
 (* tf_Constant is defined in textformat.ebnf *)
 ")
@@ -215,8 +216,9 @@ message = <'message'> messageName messageBody;
 service = <'service'> serviceName <'{'> { option | rpc | <emptyStatement> } <'}'>;
 
 returnType = messageType;
-rpc = <'rpc'> rpcName <'('> messageType <')'> <'returns'> <'('> 
-              returnType <')'> (( <'{'> { option | <emptyStatement> } <'}'> ) | <';'> );
+rpcLabel = ['stream'];
+rpc = <'rpc'> rpcName <'('> rpcLabel messageType <')'> <'returns'> <'('> 
+              rpcLabel returnType <')'> (( <'{'> { option | <emptyStatement> } <'}'> ) | <';'> );
 
 (* tf_Constant is defined in textformat.ebnf *)
 ")

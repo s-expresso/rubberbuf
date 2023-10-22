@@ -1,6 +1,7 @@
 (ns rubberbuf.core
   (:require
    [clojure.core :refer [tap>]]
+   [clojure.walk :refer [prewalk]]
    [com.rpl.specter :refer [ALL LAST select]]
    [instaparse.core :refer [failure? get-failure]]
    [instaparse.failure :refer [augment-failure]]
@@ -9,11 +10,19 @@
    [rubberbuf.parse :refer [parse]]
    [rubberbuf.util :refer [loader raise]]))
 
+(defn- update-meta [ast filename]
+  (prewalk
+   (fn [node] (if-let [m (meta node)]
+                (->> (assoc m :instaparse.gll/file filename)
+                     (with-meta node))
+                node))
+   ast))
+
 (defn- parse- [pb-text filename]
   (let [ast (parse pb-text)]
     (if (failure? ast)
       (raise (str filename ": " (-> ast get-failure (augment-failure pb-text) print with-out-str)))
-      ast)))
+      (update-meta ast filename))))
 
 (defn- protoc-
   [paths files loader auto-import registry]

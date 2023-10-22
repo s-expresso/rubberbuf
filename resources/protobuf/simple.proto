@@ -1,0 +1,6 @@
+syntax = "proto2";
+package simple;
+
+message Msg {
+    required string msg = 1;
+}

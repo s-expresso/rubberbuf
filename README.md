@@ -8,10 +8,7 @@ It can be used to develop tools or libraries that transpile protobuf definitions
 ## Usage
 Add the following to deps.edn (or its equivalent for lein).
 ```edn
-{:deps
- s-expresso/rubberbuf {:git/url "https://github.com/s-expresso/rubberbuf.git"
-                       :git/sha "08a8b87147ebe679a404e011178f7366c97ec5b6"
-                       :git/tag "v0.1.9"}}
+{:deps {com.github.s-expresso/rubberbuf {:mvn/version "0.1.9.a"}}}
 ```
 then in code
 ```clojure

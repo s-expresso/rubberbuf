@@ -2,7 +2,7 @@
   (:require [clojure.tools.build.api :as b]))
 
 (def lib 'com.github.s-expresso/rubberbuf)
-(def version "0.1.0") ;(format "0.0.%s" (b/git-count-revs nil))
+(def version "0.1.9.a") ;(format "0.0.%s" (b/git-count-revs nil))
 (def class-dir "target/classes")
 (def basis (b/create-basis {:project "deps.edn"}))
 (def jar-file (format "target/%s-%s.jar" (name lib) version))

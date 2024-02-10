@@ -22,14 +22,19 @@
            :shadow {:extra-paths ["test"]
                     :extra-deps {thheller/shadow-cljs {:mvn/version "2.20.20"}}}
 
+           ; update build.clj first
+           ; clj -T:build jar
            :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.3"}}
                    :ns-default build}
 
+           ; update pom.xml and :artifact below first
+           ; ensure CLOJARS_USERNAME and CLOJARS_PASSWORD env vars are set
+           ; clj -T:deploy
            :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "0.2.0"}}
                     :exec-fn deps-deploy.deps-deploy/deploy
                     :exec-args {:installer :remote
                                 :sign-releases? false
-                                :artifact "target/rubberbuf-0.1.0.jar"}}
+                                :artifact "target/rubberbuf-0.1.9.a.jar"}}
 
            :write-ebnf-cljc {:exec-fn rubberbuf.tool/write-ebnf-cljc
                              :exec-args nil}}}

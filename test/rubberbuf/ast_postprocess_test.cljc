@@ -1,4 +1,4 @@
-(ns rubberbuf.ast-unnest-test
+(ns rubberbuf.ast-postprocess-test
   (:require [rubberbuf.ast-postprocess :refer [unnest]]
             [clojure.test :refer [is deftest run-tests]]))
 

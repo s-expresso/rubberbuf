@@ -172,8 +172,8 @@
                              oneof-field? [(nthpath 1) string? STAY]
                              field? [(nthpath 2) string? STAY]
                              map-field? [(nthpath 2) string? STAY]
-                             rpc? [(multi-path [(nthpath 2) string? STAY]
-                                               [(nthpath 3) string? STAY])]
+                             rpc? [(multi-path [(nthpath 3) string? STAY]
+                                               [(nthpath 5) string? STAY])]
                              sequential? [ALL-WITH-META p])))
 
 (def PATH-TO-FIELD-MSG [ALL-WITH-META (collect-one FIRST) ; filename

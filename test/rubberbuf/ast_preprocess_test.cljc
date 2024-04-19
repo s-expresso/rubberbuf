@@ -37,8 +37,8 @@
                               [:oneofField "msgA" "msga_val" 2 nil]
                               [:oneofField "msgB" "msgb_val" 3 nil]]]
                             [:service "svc"
-                             [:rpc "method1" "msg1.msgA" "msg2.msgB" nil]
-                             [:rpc "method2" "msgA" "msgB" nil]]]
+                             [:rpc "method1" nil "msg1.msgA" nil "msg2.msgB" nil]
+                             [:rpc "method2" :stream "msgA" :stream "msgB" nil]]]
                 ; messages below shouldn't be referenced as others are better match
                 "p3.proto" [[:syntax "proto3"]
                             [:message "msg1"]
@@ -91,8 +91,8 @@
                  [:oneofField "a.b.c/msgA" "msga_val" 2 nil]
                  [:oneofField "a.b.c/msgB" "msgb_val" 3 nil]]]
                [:service "svc"
-                [:rpc "method1" "a.b.c/msg1.msgA" "a.b.c/msg2.msgB" nil]
-                [:rpc "method2" "a.b.c/msgA" "a.b.c/msgB" nil]]],
+                [:rpc "method1" nil "a.b.c/msg1.msgA" nil "a.b.c/msg2.msgB" nil]
+                [:rpc "method2" :stream "a.b.c/msgA" :stream "a.b.c/msgB" nil]]],
    "p3.proto" [[:syntax "proto3"]
                [:message "msg1"]
                [:message "msg2"]

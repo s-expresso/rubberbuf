@@ -1,5 +1,5 @@
 {:paths ["src"]
- :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+ :deps {org.clojure/clojure {:mvn/version "1.11.2"}
         org.clojure/clojurescript {:mvn/version "1.11.60"}
         com.google.javascript/closure-compiler-unshaded {:mvn/version "v20230103"}
         instaparse/instaparse {:mvn/version "1.4.12"}

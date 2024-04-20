@@ -5,6 +5,8 @@ rubberbuf is a clojure(script) library to parse protobuf definition (.proto) int
 
 It can be used to develop tools or libraries that transpile protobuf definitions into other langs like C/C++, Java, Python, etc, or to dynamically read/analyze protobuf definitions.
 
+https://github.com/s-expresso/clojobuf-codec uses this library to dynamically interprets protobuf files and use the resultant schemas to encode/decode plain clojure(script) map into/from protobuf binaries.
+
 ## Usage
 Add the following to deps.edn (or its equivalent for lein).
 ```edn
@@ -102,7 +104,8 @@ And the following are due to `:normalize true`
 
 ## AST Transformation
 `rubberbuf.ast-postprocessing` provides transformation function that can be applied to above output.
-* unnest: nested message/enum are extracted out to top level, with its name replaced with a scoped name (.e.g `MsgA.MsgB.MsgC`)
+* `unnest`: nested message/enum are extracted out to top level, with its name replaced with a scoped name (.e.g `MsgA.MsgB.MsgC`)
+* `mapify`: transforms the vector structure of the AST into a map of maps; meant to be used after `unnest`
 
 ## Unsupported feature
 * protobuf `group` type (deprecated by google)

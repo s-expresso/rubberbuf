@@ -10,7 +10,7 @@ https://github.com/s-expresso/clojobuf-codec uses this library to dynamically in
 ## Usage
 Add the following to deps.edn (or its equivalent for lein).
 ```edn
-{:deps {com.github.s-expresso/rubberbuf {:mvn/version "0.1.9.a"}}}
+{:deps {com.github.s-expresso/rubberbuf {:mvn/version "0.2.0"}}}
 ```
 then in code
 ```clojure

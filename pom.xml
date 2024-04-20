@@ -4,19 +4,19 @@
   <packaging>jar</packaging>
   <groupId>com.github.s-expresso</groupId>
   <artifactId>rubberbuf</artifactId>
-  <version>0.1.9.a</version>
+  <version>0.2.0</version>
   <name>rubberbuf</name>
   <scm>
     <connection>scm:git:git://github.com/s-expresso/rubberbuf.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/s-expresso/rubberbuf.git</developerConnection>
-    <tag>v0.1.9.a</tag>
+    <tag>v0.2.0</tag>
     <url>https://github.com/s-expresso/rubberbuf</url>
   </scm>
   <dependencies>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.11.1</version>
+      <version>1.11.2</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>

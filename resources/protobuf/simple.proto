@@ -3,4 +3,20 @@ package simple;
 
 message Msg {
     required string msg = 1;
+    map<int32, string> map_field = 2;
+    oneof identifier {
+        string name = 3;
+        int32 id = 4;
+    }
+}
+
+enum enm {
+  option allow_alias = true;
+  ZERO = 0;
+  ONE = 1;
+  ANOTHER_ONE = 1;
+  TWO = 2;
+  THREE = 3 [deprecated = true];
+  reserved 2, 15, 9 to 11, 40 to max;
+  reserved 'FOO', 'BAR';
 }

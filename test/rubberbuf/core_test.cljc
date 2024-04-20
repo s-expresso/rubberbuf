@@ -11,5 +11,3 @@
                  (when-not (contains? m :instaparse.gll/file)
                    (reset! ?fail true))) ast)
     (is (not @?fail))))
-
-(run-tests)

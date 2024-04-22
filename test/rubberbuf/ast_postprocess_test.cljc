@@ -48,7 +48,8 @@
      [:enumField "THREE" 3 [["deprecated" :true]]]
      [:reserved-ranges 2 15 [9 11] [40 536870911]]
      [:reserved-names "FOO" "BAR"]]
-    [:message "ReqABC"]
+    [:message "ReqABC"
+     [:extensions [4 1000]]]
     [:message "RespABC"]
     [:service
      "svc"
@@ -77,7 +78,7 @@
      "THREE" {:value 3, :options [["deprecated" :true]]}},
     :reserved-ranges [2 15 [9 11] [40 536870911]],
     :reserved-names ["FOO" "BAR"]},
-   "my.package.ns/ReqABC" {:context :message},
+   "my.package.ns/ReqABC" {:context :message :extensions [[4 1000]]},
    "my.package.ns/RespABC" {:context :message},
    "my.package.ns/svc"
    {:context :service,

@@ -108,6 +108,9 @@
                              #(into (if (nil? %) [] %) (drop 1 rhs)))
     ; [:reserved-names "FOO" "BAR"]]]
     :reserved-ranges (update lhs :reserved-ranges
+                             #(into (if (nil? %) [] %) (drop 1 rhs)))
+    ; [:extensions [1000 536870911] ...]
+    :extensions      (update lhs :extensions
                              #(into (if (nil? %) [] %) (drop 1 rhs)))))
 
 (defn- mapify-enm|msg|svc [enm|msg|svc syntax package form]

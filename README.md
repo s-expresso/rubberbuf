@@ -5,7 +5,7 @@ rubberbuf is a clojure(script) library to parse protobuf definition (.proto) int
 
 It can be used to develop tools or libraries that transpile protobuf definitions into other langs like C/C++, Java, Python, etc, or to dynamically read/analyze protobuf definitions.
 
-https://github.com/s-expresso/clojobuf-codec uses this library to dynamically interprets protobuf files and use the resultant schemas to encode/decode plain clojure(script) map into/from protobuf binaries.
+https://github.com/s-expresso/clojobuf uses this library to dynamically interprets protobuf files and use the resultant schemas to encode/decode plain clojure(script) map into/from protobuf binaries.
 
 ## Usage
 Add the following to deps.edn (or its equivalent for lein).

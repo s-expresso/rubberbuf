@@ -2,7 +2,7 @@
  :deps {org.clojure/clojure {:mvn/version "1.11.2"}
         org.clojure/clojurescript {:mvn/version "1.11.60"}
         com.google.javascript/closure-compiler-unshaded {:mvn/version "v20230103"}
-        instaparse/instaparse {:mvn/version "1.4.12"}
+        instaparse/instaparse {:mvn/version "1.4.14"}
         com.rpl/specter {:mvn/version "1.1.4"}
         com.github.pkpkpk/cljs-node-io {:mvn/version "2.0.339"}}
  :aliases {:test {:extra-paths ["test" "resources"]

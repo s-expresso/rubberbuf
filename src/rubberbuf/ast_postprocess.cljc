@@ -150,5 +150,6 @@
    to be :message, :enum or :service, and has other attributes based on context."
   [unnested-rast]
   (->> unnested-rast
-       (map #(mapify-ast (second %)))
-       (reduce {} conj)))
+       vals
+       (map mapify-ast)
+       (reduce conj {})))

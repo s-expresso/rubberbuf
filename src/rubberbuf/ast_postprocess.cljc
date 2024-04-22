@@ -74,6 +74,13 @@
                                                                      :type (nth rhs 2)
                                                                      :fid (nth rhs 4)
                                                                      :options (nth rhs 5)}}))
+    ; [:field+ :required :string "msg" 1 nil]
+    :field+           (update lhs :fields
+                             #(conj (if (nil? %) {} %) {(nth rhs 3) {:context (nth rhs 1)
+                                                                     :type (nth rhs 2)
+                                                                     :fid (nth rhs 4)
+                                                                     :is-extension true
+                                                                     :options (nth rhs 5)}}))
     ; [:mapField :int32 :string "map_field" 2 nil]
     :mapField        (update lhs :fields
                              #(conj (if (nil? %) {} %) {(nth rhs 3) {:context :map

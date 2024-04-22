@@ -49,7 +49,8 @@
      [:reserved-ranges 2 15 [9 11] [40 536870911]]
      [:reserved-names "FOO" "BAR"]]
     [:message "ReqABC"
-     [:extensions [4 1000]]]
+     [:extensions [4 1000]]
+     [:field+ :optional :string "my.ns.ext" 4 nil]]
     [:message "RespABC"]
     [:service
      "svc"
@@ -78,7 +79,10 @@
      "THREE" {:value 3, :options [["deprecated" :true]]}},
     :reserved-ranges [2 15 [9 11] [40 536870911]],
     :reserved-names ["FOO" "BAR"]},
-   "my.package.ns/ReqABC" {:context :message :extensions [[4 1000]]},
+   "my.package.ns/ReqABC"
+   {:context :message
+    :extensions [[4 1000]]
+    :fields {"my.ns.ext" {:context :optional, :type :string, :is-extension true,:fid 4, :options nil}}},
    "my.package.ns/RespABC" {:context :message},
    "my.package.ns/svc"
    {:context :service,

@@ -107,6 +107,24 @@ And the following are due to `:normalize true`
 * `unnest`: nested message/enum are extracted out to top level, with its name replaced with a scoped name (.e.g `MsgA.MsgB.MsgC`)
 * `mapify`: transforms the vector structure of the AST into a map of maps; meant to be used after `unnest`
 
+## Textformat
+protobuf's textformat can be parsed using `rubberbuf.parse-textformat/parse` method.
+```clj
+(rubberbuf.parse-textformat/parse 
+ "str_field: \"str\" 
+  int_field: 123 
+  float_field: 123.45 
+  msg_field: {a: 1 b: 2} 
+  repeated_field: {a: 1 b: 2} 
+  repeated_field: {a: 3 b: 4}")
+;; =>
+;; {"str_field" "str",
+;;  "int_field" 123,
+;;  "float_field" 123.45,
+;;  "msg_field" {"a" 1, "b" 2},
+;;  "repeated_field" [{"a" 1, "b" 2} {"a" 3, "b" 4}]}
+```
+
 ## Unsupported feature
 * protobuf `group` type (deprecated by google)
 

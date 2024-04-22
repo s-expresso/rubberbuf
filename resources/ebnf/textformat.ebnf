@@ -29,7 +29,7 @@ tf_WHITESPACE = #'[ \n\r\t\v]*';
                | tf_dec_lit, tf_exp ;
 <tf_exp>       = ( 'E' | 'e' ), [ '+' | '-' ], tf_dec_lit ;
 
-<tf_DEC_INT>   = tf_dec_lit;
+<tf_DEC_INT>   = ( tf_dec_lit | tf_decimals );
 <tf_OCT_INT>   = '0', tf_oct, { tf_oct } ;
 <tf_HEX_INT>   = '0', ( 'X' | 'x' ), tf_hex, { tf_hex } ;
 <tf_FLOAT>     = tf_float_lit, [ 'F' | 'f' ]

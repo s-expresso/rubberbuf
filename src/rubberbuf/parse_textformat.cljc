@@ -14,7 +14,7 @@
 (defparser parser-tf
   textformat-ebnf
   :auto-whitespace void
-  :start :tf_Field)
+  :start :tf_Message)
 
 (defn merge-tuple-into-map
   "(merge-tuple-into-map {}           [:a 4])       => {:a [4]}

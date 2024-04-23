@@ -1,6 +1,7 @@
 (ns rubberbuf.ast-postprocess
   (:require [com.rpl.specter :refer [collect-one cond-path declarepath if-path multi-path nthpath providepath putval select  subselect transform
                                      ALL ALL-WITH-META FIRST LAST NONE STAY]]
+            [flatland.ordered.map :refer [ordered-map]]
             [rubberbuf.ast-util :refer [enm? ext? field? grp? msg? msg-enm? msg-enm-grp-ext?]]
             [rubberbuf.core :refer [protoc]]))
 
@@ -60,53 +61,57 @@
 (defn- ->full-name [package name]
   (if (empty? package) name (str package "/" name)))
 
+(defn- assoc-with [k v]
+  (fn [old-val] (assoc (if (nil? old-val) (ordered-map) old-val) k v)))
+
 (defn- mapify-content
   "Mapify rhs and conj into lhs and return result."
   [lhs rhs]
   (condp = (first rhs)
     ; [:enumField "ZERO" 0 nil]
     :enumField       (update lhs :enum-fields
-                             #(conj (if (nil? %) {} %) {(nth rhs 1) {:value (nth rhs 2)
-                                                                     :options (nth rhs 3)}}))
+                             (assoc-with (nth rhs 1) {:value (nth rhs 2)
+                                                      :options (nth rhs 3)}))
     ; [:field :required :string "msg" 1 nil]
     :field           (update lhs :fields
-                             #(conj (if (nil? %) {} %) {(nth rhs 3) {:context (nth rhs 1)
-                                                                     :type (nth rhs 2)
-                                                                     :fid (nth rhs 4)
-                                                                     :options (nth rhs 5)}}))
+                             (assoc-with (nth rhs 3) {:context (nth rhs 1)
+                                                      :type (nth rhs 2)
+                                                      :fid (nth rhs 4)
+                                                      :options (nth rhs 5)}))
     ; [:field+ :required :string "msg" 1 nil]
     :field+           (update lhs :fields
-                             #(conj (if (nil? %) {} %) {(nth rhs 3) {:context (nth rhs 1)
-                                                                     :type (nth rhs 2)
-                                                                     :fid (nth rhs 4)
-                                                                     :is-extension true
-                                                                     :options (nth rhs 5)}}))
+                              (assoc-with (nth rhs 3) {:context (nth rhs 1)
+                                                       :type (nth rhs 2)
+                                                       :fid (nth rhs 4)
+                                                       :is-extension true
+                                                       :options (nth rhs 5)}))
     ; [:mapField :int32 :string "map_field" 2 nil]
     :mapField        (update lhs :fields
-                             #(conj (if (nil? %) {} %) {(nth rhs 3) {:context :map
-                                                                     :key-type (nth rhs 1)
-                                                                     :val-type (nth rhs 2)
-                                                                     :fid (nth rhs 4)
-                                                                     :options (nth rhs 5)}}))
+                             (assoc-with (nth rhs 3) {:context :map
+                                                      :key-type (nth rhs 1)
+                                                      :val-type (nth rhs 2)
+                                                      :fid (nth rhs 4)
+                                                      :options (nth rhs 5)}))
     ; [:oneof "identifier" [:oneofField :string "name" 3 nil] [:oneofField :int32 "id" 4 nil]]
     :oneof           (update lhs :fields
-                             #(conj (if (nil? %) {} %) {(nth rhs 1) (reduce mapify-content
-                                                                            {:context :oneof}
-                                                                            (drop 2 rhs))}))
+                             (assoc-with (nth rhs 1) (reduce mapify-content
+                                                             {:context :oneof}
+                                                             (drop 2 rhs))))
     ; [:oneofField :string "name" 3 nil]
     :oneofField      (update lhs :oneof-fields
-                             #(conj (if (nil? %) {} %) {(nth rhs 2) {:context :oneof-field
-                                                                     :type (nth rhs 1)
-                                                                     :fid (nth rhs 3)
-                                                                     :options (nth rhs 4)}}))
+                             (assoc-with (nth rhs 2) {:context :oneof-field
+                                                      :type (nth rhs 1)
+                                                      :fid (nth rhs 3)
+                                                      :options (nth rhs 4)}))
     ;[:rpc "method3" :stream "nested.ReqXYZ" :stream "nested.RespXYZ" [[:option "deprecated" :true]]]
     :rpc             (update lhs :rpcs
-                             #(conj (if (nil? %) {} %) {(nth rhs 1) (reduce mapify-content {:context :rpc
-                                                                                            :request-spec (nth rhs 2)
-                                                                                            :request (nth rhs 3)
-                                                                                            :response-spec (nth rhs 4)
-                                                                                            :response (nth rhs 5)}
-                                                                            (nth rhs 6))}))
+                             (assoc-with (nth rhs 1) (reduce mapify-content
+                                                             {:context :rpc
+                                                              :request-spec (nth rhs 2)
+                                                              :request (nth rhs 3)
+                                                              :response-spec (nth rhs 4)
+                                                              :response (nth rhs 5)}
+                                                             (nth rhs 6))))
     ; [:option "allow_alias" :true]
     :option          (update lhs :options
                              #(conj (if (nil? %) [] %) [(nth rhs 1) (nth rhs 2)]))

@@ -4,12 +4,12 @@
   <packaging>jar</packaging>
   <groupId>com.github.s-expresso</groupId>
   <artifactId>rubberbuf</artifactId>
-  <version>0.2.1</version>
+  <version>0.2.2</version>
   <name>rubberbuf</name>
   <scm>
     <connection>scm:git:git://github.com/s-expresso/rubberbuf.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/s-expresso/rubberbuf.git</developerConnection>
-    <tag>v0.2.1</tag>
+    <tag>v0.2.2</tag>
     <url>https://github.com/s-expresso/rubberbuf</url>
   </scm>
   <dependencies>
@@ -42,6 +42,11 @@
       <groupId>com.github.pkpkpk</groupId>
       <artifactId>cljs-node-io</artifactId>
       <version>2.0.339</version>
+    </dependency>
+    <dependency>
+      <groupId>org.flatland</groupId>
+      <artifactId>ordered</artifactId>
+      <version>1.15.12</version>
     </dependency>
   </dependencies>
   <build>

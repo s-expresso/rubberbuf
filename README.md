@@ -10,7 +10,7 @@ https://github.com/s-expresso/clojobuf uses this library to dynamically interpre
 ## Usage
 Add the following to deps.edn (or its equivalent for lein).
 ```edn
-{:deps {com.github.s-expresso/rubberbuf {:mvn/version "0.2.1"}}}
+{:deps {com.github.s-expresso/rubberbuf {:mvn/version "0.2.2"}}}
 ```
 then in code
 ```clojure

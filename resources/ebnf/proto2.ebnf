@@ -25,7 +25,7 @@ stream = <'stream'> streamName <'('> messageType <','> messageType <')'> (( '{' 
 extend = <'extend'> messageType <'{'> {field | group | <emptyStatement>} <'}'>;
 extensions = <'extensions'> ranges <';'>;
 
-(* proto2 only: 'required' 'optional' *)
+(* proto2 only: 'required' *)
 label = 'required' | 'optional' | 'repeated';
 
 intLit     = decimalLit | octalLit | hexLit;

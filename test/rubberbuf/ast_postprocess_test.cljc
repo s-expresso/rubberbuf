@@ -7,23 +7,23 @@
 (def pb3_rast1 {"p1.proto" [[:syntax "proto3"]
                             [:package "a.b.c"]
                             [:message "msg1"
-                             [:message "msgA" [:field nil :uint32 1 nil]
-                              [:message "msgA" [:field nil :uint32 1 nil]
-                               [:message "msgA" [:field nil :uint32 1 nil]
-                                [:message "msgA" [:field nil :uint32 1 nil]
+                             [:message "msgA" [:field "a" :uint32 1 nil]
+                              [:message "msgA" [:field "a" :uint32 1 nil]
+                               [:message "msgA" [:field "a" :uint32 1 nil]
+                                [:message "msgA" [:field "a" :uint32 1 nil]
                                  [:enum "enmA" ["ZERO" 0] ["ONE" 1]]]]]]]
-                            [:message "msgA"] [:message "msgB"]]})
+                            [:message "msgA" [:field "m" "a.b.c/msg1" 1 nil]] [:message "msgB"]]})
 
 (def pb3_rast1_unnested
   {"p1.proto" [[:syntax "proto3"]
                [:package "a.b.c"]
                [:message "msg1"]
-               [:message "msg1.msgA" [:field nil :uint32 1 nil]]
-               [:message "msg1.msgA.msgA" [:field nil :uint32 1 nil]]
-               [:message "msg1.msgA.msgA.msgA" [:field nil :uint32 1 nil]]
-               [:message "msg1.msgA.msgA.msgA.msgA" [:field nil :uint32 1 nil]]
+               [:message "msg1.msgA" [:field "a" :uint32 1 nil]]
+               [:message "msg1.msgA.msgA" [:field "a" :uint32 1 nil]]
+               [:message "msg1.msgA.msgA.msgA" [:field "a" :uint32 1 nil]]
+               [:message "msg1.msgA.msgA.msgA.msgA" [:field "a" :uint32 1 nil]]
                [:enum "msg1.msgA.msgA.msgA.msgA.enmA" ["ZERO" 0] ["ONE" 1]]
-               [:message "msgA"]
+               [:message "msgA" [:field "m" "a.b.c/msg1" 1 nil]]
                [:message "msgB"]]})
 
 (deftest test-p3-rast1
@@ -96,5 +96,26 @@
       :response "simple/RespABC",
       :options [["deprecated" :true]]}}}})
 
-(deftest test-p3-unnested-mapify
+(deftest test-p3-unnested1-mapify
   (is (= pb3_unnested1_mapified (mapify pb3_unnested1))))
+
+(def pb3_unnested2
+  {"p1.proto"
+   [[:syntax "proto3"]
+    [:package "my.package.ns"]
+    [:message "Msg"
+     [:field :required :string "val" 1 nil]]
+    [:message "ReqABC"
+     [:field :optional "Msg" "msg" 1 nil]]]})
+
+(def pb3_unnested2_mapified
+  {"my.package.ns/Msg"
+   {:context :message,
+    :fields
+    {"val" {:context :required, :type :string, :fid 1, :options nil}}},
+   "my.package.ns/ReqABC"
+   {:context :message
+    :fields {"msg" {:context :optional, :type "Msg", :fid 1, :options nil}}}})
+
+(deftest test-p3-unnested2-mapify
+  (is (= pb3_unnested2_mapified (mapify pb3_unnested2))))

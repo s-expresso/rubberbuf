@@ -102,6 +102,28 @@ And the following are due to `:normalize true`
 * `[:field+ ...]` name `"my.package.ns/MsgA.ext_1"` follows google's naming convention; long and verbose but an necessary evil to avoid name collision
 * `extend` is removed from AST since already injected
 
+If `:normalize false`, you will get the following:
+```edn
+{"pb2_example.proto"
+ [[:syntax "proto2"]
+  [:package "my.package.ns"]
+  [:enum "Enm1"
+   [:option "allow_alias" :true]
+   [:enumField "ZERO" 0 nil]
+   [:enumField "ONE" 1 nil]
+   [:enumField "ANOTHER_ONE" 1 [["deprecated" :true]]]]
+  [:message "MsgA"
+   [:field :optional "Enm1" "field_a1" 1 nil]
+   [:field :optional :sint32 "field_a2" 2 [["deprecated" :true]
+                                           ["default" 5]]]
+   [:message "MsgB"
+    [:field :optional :uint32 "field_b1" 1 nil]
+    [:extensions 1 2 [1000 2000]]]
+   [:field :repeated "MsgB" "field_a3" 3 nil]
+   [:extend "MsgB"
+    [:field :optional :bool "ext_1" 1000 nil]]]]}
+```
+
 ## AST Transformation
 `rubberbuf.ast-postprocessing` provides transformation function that can be applied to above output.
 * `unnest`: nested message/enum are extracted out to top level, with its name replaced with a scoped name (.e.g `MsgA.MsgB.MsgC`)

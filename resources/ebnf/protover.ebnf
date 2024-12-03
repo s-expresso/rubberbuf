@@ -1,4 +1,9 @@
+proto = syntax | edition;
 
 syntax = <'syntax'> <'='> <quote> version <quote> <';'> {< #'.*' >};
 version = 'proto2' | 'proto3';
+
+edition = <'edition'> <'='> <quote> yyyy <quote> <';'> {< #'.*' >};
+yyyy = '2023' | '2024';
+
 quote = "'" | '"';

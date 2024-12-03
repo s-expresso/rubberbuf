@@ -223,9 +223,123 @@ rpc = <'rpc'> rpcName <'('> rpcLabel messageType <')'> <'returns'> <'('>
 (* tf_Constant is defined in textformat.ebnf *)
 ")
 
-(def protover-ebnf "
+(def protoeditions-ebnf "
+proto = edition { import | package | option | message | enum | extend | service | <emptyStatement> };
+
+octalDigit3  = #'[0-7][0-7][0-7]';
+hexDigit     = #'[0-9a-fA-F]';
+hexDigit2    = #'[0-9a-fA-F][0-9a-fA-F]';
+
+ident = #'[a-zA-Z_][a-zA-Z0-9_]*';
+fullIdent = ident { '.' ident };
+messageName = ident;
+enumName = ident;
+fieldName = ident;
+oneofName = ident;
+mapName = ident;
+serviceName = ident;
+rpcName = ident;
+(* messageType = [ '.' ] { ident '.' } messageName; *)
+messageType = #'^((\\.[A-Za-z_][A-Za-z0-9_]*)|[A-Za-z_][A-Za-z0-9_]*)(\\.[A-Za-z_][A-Za-z0-9_]*)*';
+
+extend = <'extend'> messageType <'{'> {field | <emptyStatement>} <'}'>;
+
+(* proto2 only: 'required' *)
+label = [ 'optional' | 'repeated' ];
+
+intLit     = decimalLit | octalLit | hexLit;
+sintLit    = ( [ '-' | '+' ] intLit );
+decimalLit = #'[1-9][0-9]*';
+octalLit   = #'0[0-7]*';
+hexLit     = #'(0x|0X)[0-9a-fA-F][0-9a-fA-F]*';
+
+<floatLit> = ( decimals '.' [ decimals ] [ exponent ] | decimals exponent | '.'decimals [ exponent ] ) | 'inf' | 'nan';
+
+<decimals>  = #'[0-9]+';
+<exponent>  = ( 'e' | 'E' ) [ '+' | '-' ] decimals;
+
+boolLit = 'true' | 'false';
+
+strLit = ( <'\"'> { charValue } <'\"'> ) |  ( <\"'\"> { charValue } <\"'\"> );
+charValue = hexEscape | octEscape | charEscape |  #'[^\\x00\\n\\\\]';
+hexEscape = <('\\\\x' | '\\\\X')> hexDigit2;
+octEscape = <'\\\\'> octalDigit3;
+charEscape = <'\\\\'> ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\\\' | '\"' | \"'\" );
+
+emptyStatement = <(#'[\\s\\n\\r;]*')>;
+
+signedFloatLit = [ '-' | '+' ] floatLit;
+signedIntLit = [ '-' | '+' ] intLit;
+<constant> = fullIdent | signedIntLit | signedFloatLit | strLit | boolLit;
+
+singleQuote = \"'\";
+doubleQuote = '\"';
+edition = <'edition'> <'='> ( <singleQuote> yyyy <singleQuote> |
+                              <doubleQuote> yyyy <doubleQuote> ) <';'>;
+<yyyy> = '2023' | '2024';
+
+import = <'import'> [ 'weak' | 'public' ] strLit <';'>;
+
+package = <'package'> fullIdent <';'>;
+
+option = <'option'> optionName  <'='> tf_Constant <';'>;
+optionName = ( ident | '(' fullIdent ')' ) { '.' ident };
+
+priType = 'double' | 'float' | 'int32' | 'int64' | 'uint32' | 'uint64'
+      | 'sint32' | 'sint64' | 'fixed32' | 'fixed64' | 'sfixed32' | 'sfixed64'
+      | 'bool' | 'string' | 'bytes';
+type = messageType | priType;
+
+field = label type fieldName <'='> fieldNumber [ <'['> fieldOptions <']'> ] <';'>;
+
+fieldNumber = intLit;
+fieldOptions = fieldOption { <','>  fieldOption };
+fieldOption = optionName <'='> tf_Constant;
+
+oneof = <'oneof'> oneofName <'{'> { oneofField | <emptyStatement> } <'}'>;
+oneofField = type fieldName <'='> fieldNumber [ <'['> fieldOptions <']'> ] <';'>;
+
+mapField = <'map'> <'<'> keyType <','> type <'>'> mapName <'='> fieldNumber [ <'['> fieldOptions <']'> ] <';'>;
+keyType = 'int32' | 'int64' | 'uint32' | 'uint64' | 'sint32' | 'sint64' |
+          'fixed32' | 'fixed64' | 'sfixed32' | 'sfixed64' | 'bool' | 'string';
+
+<ranges> = range { <','> range };
+range =  intLit [ <'to'> ( intLit | 'max' ) ];
+
+reserved-ranges = <'reserved'> ranges <';'>;
+reserved-names = <'reserved'> strFieldNames <';'>;
+<reserved> = reserved-ranges | reserved-names;
+<strFieldNames> = strFieldName { <','> strFieldName };
+<strFieldName> = fieldName;
+
+enum = <'enum'> enumName enumBody;
+<enumBody> = <'{'> { option | enumField | reserved | <emptyStatement> } <'}'>;
+enumField = ident <'='> sintLit [ <'['> fieldOptions <']'> ]<';'>;
+
+message = <'message'> messageName messageBody;
+<messageBody> = <'{'> { field | enum | message | extend | option | oneof | mapField |
+                        reserved | <emptyStatement> } <'}'>;
+
+
+(* proto2 only: stream *)
+service = <'service'> serviceName <'{'> { option | rpc | <emptyStatement> } <'}'>;
+
+returnType = messageType;
+rpcLabel = ['stream'];
+rpc = <'rpc'> rpcName <'('> rpcLabel messageType <')'> <'returns'> <'('> 
+              rpcLabel returnType <')'> (( <'{'> { option | <emptyStatement> } <'}'> ) | <';'> );
+
+(* tf_Constant is defined in textformat.ebnf *)
+")
+
+(def protover-ebnf "proto = syntax | edition;
+
 syntax = <'syntax'> <'='> <quote> version <quote> <';'> {< #'.*' >};
 version = 'proto2' | 'proto3';
+
+edition = <'edition'> <'='> <quote> yyyy <quote> <';'> {< #'.*' >};
+yyyy = '2023' | '2024';
+
 quote = \"'\" | '\"';
 ")
 

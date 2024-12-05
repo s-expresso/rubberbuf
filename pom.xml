@@ -4,12 +4,12 @@
   <packaging>jar</packaging>
   <groupId>com.github.s-expresso</groupId>
   <artifactId>rubberbuf</artifactId>
-  <version>0.2.2</version>
+  <version>0.3.0</version>
   <name>rubberbuf</name>
   <scm>
     <connection>scm:git:git://github.com/s-expresso/rubberbuf.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/s-expresso/rubberbuf.git</developerConnection>
-    <tag>v0.2.2</tag>
+    <tag>v0.3.0</tag>
     <url>https://github.com/s-expresso/rubberbuf</url>
   </scm>
   <dependencies>

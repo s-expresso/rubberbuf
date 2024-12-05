@@ -7,8 +7,8 @@
 
 (def proto3-ebnf "<PROTO3>")
 
-(def protoeditions-ebnf "<PROTOEDITIONS>")
+(def protoE-ebnf "<PROTOE>")
 
-(def protover-ebnf "<PROTOVER>")
+(def proto-version-ebnf "<PROTO-VERSION>")
 
 (def textformat-ebnf "<TEXTFORMAT>")

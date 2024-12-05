@@ -223,7 +223,7 @@ rpc = <'rpc'> rpcName <'('> rpcLabel messageType <')'> <'returns'> <'('>
 (* tf_Constant is defined in textformat.ebnf *)
 ")
 
-(def protoeditions-ebnf "
+(def protoE-ebnf "
 proto = edition { import | package | option | message | enum | extend | service | <emptyStatement> };
 
 octalDigit3  = #'[0-7][0-7][0-7]';
@@ -332,7 +332,7 @@ rpc = <'rpc'> rpcName <'('> rpcLabel messageType <')'> <'returns'> <'('>
 (* tf_Constant is defined in textformat.ebnf *)
 ")
 
-(def protover-ebnf "proto = syntax | edition;
+(def proto-version-ebnf "proto = syntax | edition;
 
 syntax = <'syntax'> <'='> <quote> version <quote> <';'> {< #'.*' >};
 version = 'proto2' | 'proto3';

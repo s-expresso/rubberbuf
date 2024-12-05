@@ -4,7 +4,7 @@
             #?(:clj [instaparse.core :as insta :refer [defparser]])
             [clojure.string :refer [join]]
             [rubberbuf.parse-textformat :refer [xform-tf]]
-            [rubberbuf.ebnf :refer [proto2-ebnf proto3-ebnf protoeditions-ebnf protover-ebnf textformat-ebnf]]))
+            [rubberbuf.ebnf :refer [proto2-ebnf proto3-ebnf protoE-ebnf proto-version-ebnf textformat-ebnf]]))
 
 (defn- make-msg-field [label type name fnum opts]
   [:field          label type name fnum opts])
@@ -205,33 +205,33 @@
        textformat-ebnf)
   :auto-whitespace void)
 
-(defparser parser-editions
-  (str protoeditions-ebnf
+(defparser parser-e
+  (str protoE-ebnf
        textformat-ebnf)
   :auto-whitespace void)
 
 (defparser parser-ver
-  protover-ebnf
+  proto-version-ebnf
   :auto-whitespace void)
 
-(defn- parse2 [text]
+(defn- parse-2 [text]
   (let [ast (parser-2 text)
         ast+line (insta/add-line-and-column-info-to-metadata text ast)]
     (insta/transform xform ast+line)))
 
-(defn- parse3 [text]
+(defn- parse-3 [text]
   (let [ast (parser-3 text)
         ast+line (insta/add-line-and-column-info-to-metadata text ast)]
     (insta/transform xform ast+line)))
 
-(defn- parse-edition [text]
-  (let [ast (parser-editions text)
+(defn- parse-e [text]
+  (let [ast (parser-e text)
         ast+line (insta/add-line-and-column-info-to-metadata text ast)]
     (insta/transform xform ast+line)))
 
 (defn parse [text]
   (let [version (parser-ver text)]
     (cond
-      (= :edition (-> version second first)) (parse-edition text)
-      (= [:proto [:syntax [:version "proto3"]]] version) (parse3 text)
-      :else (parse2 text))))
+      (= :edition (-> version second first)) (parse-e text)
+      (= [:proto [:syntax [:version "proto3"]]] version) (parse-3 text)
+      :else (parse-2 text))))

@@ -276,7 +276,7 @@ singleQuote = \"'\";
 doubleQuote = '\"';
 edition = <'edition'> <'='> ( <singleQuote> yyyy <singleQuote> |
                               <doubleQuote> yyyy <doubleQuote> ) <';'>;
-<yyyy> = '2023' | '2024';
+<yyyy> = #'20[2-9][0-9]'; (* smallest is 2023 *)
 
 import = <'import'> [ 'weak' | 'public' ] strLit <';'>;
 
@@ -338,7 +338,7 @@ syntax = <'syntax'> <'='> <quote> version <quote> <';'> {< #'.*' >};
 version = 'proto2' | 'proto3';
 
 edition = <'edition'> <'='> <quote> yyyy <quote> <';'> {< #'.*' >};
-yyyy = '2023' | '2024';
+yyyy =  #'20[2-9][0-9]'; (* smallest is 2023 *)
 
 quote = \"'\" | '\"';
 ")

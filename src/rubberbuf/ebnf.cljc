@@ -245,7 +245,8 @@ messageType = #'^((\\.[A-Za-z_][A-Za-z0-9_]*)|[A-Za-z_][A-Za-z0-9_]*)(\\.[A-Za-z
 extend = <'extend'> messageType <'{'> {field | <emptyStatement>} <'}'>;
 
 (* proto2 only: 'required' *)
-label = [ 'optional' | 'repeated' ];
+(* proto2|3 only: 'optional' *)
+label = [ 'repeated' ];
 
 intLit     = decimalLit | octalLit | hexLit;
 sintLit    = ( [ '-' | '+' ] intLit );

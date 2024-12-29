@@ -29,9 +29,9 @@
   }
 
   message M {
-    optional int32 dec_20 = 20;
-    optional int32 hex_20 = 0x20;
-    optional int32 oct_20 = 020;
+    int32 dec_20 = 20;
+    int32 hex_20 = 0x20;
+    int32 oct_20 = 020;
   }")
 
 (def pbeditions_int_literals_ast [[:edition "2023"]
@@ -40,9 +40,9 @@
                             [:enumField "HEX_20" 32 nil]
                             [:enumField "OCT_20" 16 nil]]
                            [:message "M"
-                            [:field :optional :int32 "dec_20" 20 nil]
-                            [:field :optional :int32 "hex_20" 32 nil]
-                            [:field :optional :int32 "oct_20" 16 nil]]])
+                            [:field nil :int32 "dec_20" 20 nil]
+                            [:field nil :int32 "hex_20" 32 nil]
+                            [:field nil :int32 "oct_20" 16 nil]]])
 
 ;-------------------------------------------------------------------------------
 (def pbeditions_enm1 "
@@ -76,22 +76,22 @@ edition = '2023';
 message msg {
   option deprecated = true;
   option (test) =  {a: 1, b: 2, c: 3};
-  optional double double_val = 1 [deprecated = true];
+           double double_val = 1 [deprecated = true];
            float float_val = 2;
   repeated int32 int32_val = 3 [default = 123];
-  optional int64 int64_val = 4;
+           int64 int64_val = 4;
            uint32 uint32_val = 5 [(my.custom.opt) = 'quick fox'];
   repeated uint64 uint64_val = 6;
-  optional sint32 sint32_val = 7 [(test) = {a: 1, b: 2, c: 3}];
+           sint32 sint32_val = 7 [(test) = {a: 1, b: 2, c: 3}];
            sint64 sint64_val = 8;
   repeated fixed32 fixed32_val = 9 [(test) = {a: {b: {c: 3}}}];
-  optional fixed64 fixed64_val = 10;
+           fixed64 fixed64_val = 10;
            sfixed32 sfixed32_val = 11 [(test) = 1, (test) = 2];
   repeated sfixed64 sfixed64_val = 12;
-  optional bool bool_val = 13 [(test) = [1, 2, 3, 4]];
+           bool bool_val = 13 [(test) = [1, 2, 3, 4]];
            string string_val = 14;
   repeated bytes bytes_val = 15 [(test) = {a: 1, a: 4}];
-  optional msg msg_val = 16;
+           msg msg_val = 16;
 
   reserved name1, name2, name3;
   reserved name4, name5, name6;
@@ -106,22 +106,22 @@ message msg {
     "msg"
     [:option "deprecated" :true]
     [:option "(test)" {"a" 1, "b" 2, "c" 3}]
-    [:field :optional :double "double_val" 1 [["deprecated" :true]]]
+    [:field nil :double "double_val" 1 [["deprecated" :true]]]
     [:field nil :float "float_val" 2 nil]
     [:field :repeated :int32 "int32_val" 3 [["default" 123]]]
-    [:field :optional :int64 "int64_val" 4 nil]
+    [:field nil :int64 "int64_val" 4 nil]
     [:field nil :uint32 "uint32_val" 5 [["(my.custom.opt)" "quick fox"]]]
     [:field :repeated :uint64 "uint64_val" 6 nil]
-    [:field :optional :sint32 "sint32_val" 7 [["(test)" {"a" 1, "b" 2, "c" 3}]]]
+    [:field nil :sint32 "sint32_val" 7 [["(test)" {"a" 1, "b" 2, "c" 3}]]]
     [:field nil :sint64 "sint64_val" 8 nil]
     [:field :repeated :fixed32 "fixed32_val" 9 [["(test)" {"a" {"b" {"c" 3}}}]]]
-    [:field :optional :fixed64 "fixed64_val" 10 nil]
+    [:field nil :fixed64 "fixed64_val" 10 nil]
     [:field nil :sfixed32 "sfixed32_val" 11 [["(test)" 1] ["(test)" 2]]]
     [:field :repeated :sfixed64 "sfixed64_val" 12 nil]
-    [:field :optional :bool "bool_val" 13 [["(test)" [1 2 3 4]]]]
+    [:field nil :bool "bool_val" 13 [["(test)" [1 2 3 4]]]]
     [:field nil :string "string_val" 14 nil]
     [:field :repeated :bytes "bytes_val" 15 [["(test)" {"a" [1 4]}]]]
-    [:field :optional "msg" "msg_val" 16 nil]
+    [:field nil "msg" "msg_val" 16 nil]
     [:reserved-names "name1" "name2" "name3"]
     [:reserved-names "name4" "name5" "name6"]
     [:reserved-ranges 100 [200 299]]
@@ -199,7 +199,7 @@ message msg {
     ZERO = 0;
     ONE = 1;
   }
-  optional enm enum_val = 2;
+  enm enum_val = 2;
 }
 ")
 
@@ -210,7 +210,7 @@ message msg {
     [:enum "enm"
      [:enumField "ZERO" 0 nil]
      [:enumField "ONE" 1 nil]]
-    [:field :optional "enm" "enum_val" 2 nil]]])
+    [:field nil "enm" "enum_val" 2 nil]]])
 
 ;-------------------------------------------------------------------------------
 (def pbeditions_msg5 "
@@ -220,8 +220,8 @@ message msg {
   message inner_msg {
     double double_val = 1;
   }
-  optional inner_msg msg_val = 2;
-  optional .msg.inner_msg msg_val2 = 3;
+  inner_msg msg_val = 2;
+  .msg.inner_msg msg_val2 = 3;
 }
 ")
 
@@ -231,8 +231,8 @@ message msg {
     [:field nil :double "double_val" 1 nil]
     [:message "inner_msg"
      [:field nil :double "double_val" 1 nil]]
-    [:field :optional "inner_msg" "msg_val" 2 nil]
-    [:field :optional ".msg.inner_msg" "msg_val2" 3 nil]]])
+    [:field nil "inner_msg" "msg_val" 2 nil]
+    [:field nil ".msg.inner_msg" "msg_val2" 3 nil]]])
 
 ;-------------------------------------------------------------------------------
 (def pbeditions_extend "

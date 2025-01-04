@@ -1,6 +1,9 @@
 Releases
 ========
 
+# v0.3.1
+* editions: fix parsing `optional` keyword
+
 # v0.3.0
 * proto: support protobuf editions syntax https://github.com/s-expresso/rubberbuf/issues/6
 

@@ -10,7 +10,7 @@ https://github.com/s-expresso/clojobuf uses this library to dynamically interpre
 ## Usage
 Add the following to deps.edn (or its equivalent for lein).
 ```edn
-{:deps {com.github.s-expresso/rubberbuf {:mvn/version "0.3.0"}}}
+{:deps {com.github.s-expresso/rubberbuf {:mvn/version "0.3.1"}}}
 ```
 then in code
 ```clojure
@@ -126,8 +126,107 @@ If `:normalize false`, you will get the following:
 
 ## AST Transformation
 `rubberbuf.ast-postprocessing` provides transformation function that can be applied to above output.
-* `unnest`: nested message/enum are extracted out to top level, with its name replaced with a scoped name (.e.g `MsgA.MsgB.MsgC`)
-* `mapify`: transforms the vector structure of the AST into a map of maps; meant to be used after `unnest`
+
+### rubberbuf.ast-postprocessing/unnest
+
+Unnest nested message/enum out to top level, with its name replaced with a scoped name (.e.g `MsgA.MsgB.MsgC`).
+
+Example:
+```clj
+(rubberbuf.ast-postprocessing/unnest
+  {"p1.proto" [[:syntax "proto3"]
+               [:package "a.b.c"]
+               [:message "msg1"
+                 [:message "msgA" [:field "a" :uint32 1 nil]
+                 [:message "msgA" [:field "a" :uint32 1 nil]
+                   [:message "msgA" [:field "a" :uint32 1 nil]
+                   [:message "msgA" [:field "a" :uint32 1 nil]
+                     [:enum "enmA" ["ZERO" 0] ["ONE" 1]]]]]]]
+               [:message "msgA" [:field "m" "a.b.c/msg1" 1 nil]] [:message "msgB"]]})
+; => {"p1.proto" [[:syntax "proto3"]
+;                 [:package "a.b.c"]
+;                 [:message "msg1"]
+;                 [:message "msg1.msgA" [:field "a" :uint32 1 nil]]
+;                 [:message "msg1.msgA.msgA" [:field "a" :uint32 1 nil]]
+;                 [:message "msg1.msgA.msgA.msgA" [:field "a" :uint32 1 nil]]
+;                 [:message "msg1.msgA.msgA.msgA.msgA" [:field "a" :uint32 1 nil]]
+;                 [:enum "msg1.msgA.msgA.msgA.msgA.enmA" ["ZERO" 0] ["ONE" 1]]
+;                 [:message "msgA" [:field "m" "a.b.c/msg1" 1 nil]]
+;                 [:message "msgB"]]}
+```
+
+### rubberbuf.ast-postprocessing/mapify
+
+Transforms the vector structure of the AST into a map of maps; meant to be used after `unnest`.
+
+Example:
+```clj
+(rubberbuf.ast-postprocessing/mapify
+  {"p1.proto"
+   [[:syntax "proto2"]
+    [:package "my.package.ns"]
+    [:message
+     "Msg"
+     [:field :required :string "msg" 1 nil]
+     [:mapField :int32 :string "map_field" 2 nil]
+     [:oneof "identifier" [:oneofField :string "name" 3 nil] [:oneofField :int32 "id" 4 nil]]]
+    [:enum
+     "enm"
+     [:option "allow_alias" :true]
+     [:enumField "ZERO" 0 nil]
+     [:enumField "ONE" 1 nil]
+     [:enumField "ANOTHER_ONE" 1 nil]
+     [:enumField "TWO" 2 nil]
+     [:enumField "THREE" 3 [["deprecated" :true]]]
+     [:reserved-ranges 2 15 [9 11] [40 536870911]]
+     [:reserved-names "FOO" "BAR"]]
+    [:message "ReqABC"
+     [:extensions [4 1000]]
+     [:field+ :optional :string "my.ns.ext" 4 nil]]
+    [:message "RespABC"]
+    [:service
+     "svc"
+     [:option "deprecated" :true]
+     [:rpc "method1" nil "simple/ReqABC" nil "simple/RespABC" [[:option "deprecated" :true]]]]]})
+; =>
+; {"my.package.ns/Msg"
+;   {:context :message,
+;    :fields
+;    {"msg" {:context :required, :type :string, :fid 1, :options nil},
+;     "map_field" {:context :map, :key-type :int32, :val-type :string, :fid 2, :options nil},
+;     "identifier"
+;     {:context :oneof,
+;      :oneof-fields
+;      {"name" {:context :oneof-field, :type :string, :fid 3, :options nil},
+;       "id" {:context :oneof-field, :type :int32, :fid 4, :options nil}}}}},
+;   "my.package.ns/enm"
+;   {:context :enum,
+;    :options [["allow_alias" :true]],
+;    :enum-fields
+;    {"ZERO" {:value 0, :options nil},
+;     "ONE" {:value 1, :options nil},
+;     "ANOTHER_ONE" {:value 1, :options nil},
+;     "TWO" {:value 2, :options nil},
+;     "THREE" {:value 3, :options [["deprecated" :true]]}},
+;    :reserved-ranges [2 15 [9 11] [40 536870911]],
+;    :reserved-names ["FOO" "BAR"]},
+;   "my.package.ns/ReqABC"
+;   {:context :message
+;    :extensions [[4 1000]]
+;    :fields {"my.ns.ext" {:context :optional, :type :string, :is-extension true,:fid 4, :options nil}}},
+;   "my.package.ns/RespABC" {:context :message},
+;   "my.package.ns/svc"
+;   {:context :service,
+;    :options [["deprecated" :true]],
+;    :rpcs
+;    {"method1"
+;     {:context :rpc,
+;      :request-spec nil,
+;      :request "simple/ReqABC",
+;      :response-spec nil,
+;      :response "simple/RespABC",
+;      :options [["deprecated" :true]]}}}}
+```
 
 ## Textformat
 protobuf's textformat can be parsed using `rubberbuf.parse-textformat/parse` method.

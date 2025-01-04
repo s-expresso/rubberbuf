@@ -4,12 +4,12 @@
   <packaging>jar</packaging>
   <groupId>com.github.s-expresso</groupId>
   <artifactId>rubberbuf</artifactId>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <name>rubberbuf</name>
   <scm>
     <connection>scm:git:git://github.com/s-expresso/rubberbuf.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/s-expresso/rubberbuf.git</developerConnection>
-    <tag>v0.3.0</tag>
+    <tag>v0.3.1</tag>
     <url>https://github.com/s-expresso/rubberbuf</url>
   </scm>
   <dependencies>
@@ -26,7 +26,7 @@
     <dependency>
       <groupId>instaparse</groupId>
       <artifactId>instaparse</artifactId>
-      <version>1.4.12</version>
+      <version>1.4.14</version>
     </dependency>
     <dependency>
       <groupId>com.rpl</groupId>
@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.flatland</groupId>
       <artifactId>ordered</artifactId>
-      <version>1.15.12</version>
+      <version>1.15.11</version>
     </dependency>
   </dependencies>
   <build>

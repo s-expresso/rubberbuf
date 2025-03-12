@@ -125,15 +125,15 @@ If `:normalize false`, you will get the following:
 ```
 
 ## AST Transformation
-`rubberbuf.ast-postprocessing` provides transformation function that can be applied to above output.
+`rubberbuf.ast-postprocess` provides transformation function that can be applied to above output.
 
-### rubberbuf.ast-postprocessing/unnest
+### rubberbuf.ast-postprocess/unnest
 
 Unnest nested message/enum out to top level, with its name replaced with a scoped name (.e.g `MsgA.MsgB.MsgC`).
 
 Example:
 ```clj
-(rubberbuf.ast-postprocessing/unnest
+(rubberbuf.ast-postprocess/unnest
   {"p1.proto" [[:syntax "proto3"]
                [:package "a.b.c"]
                [:message "msg1"
@@ -155,13 +155,13 @@ Example:
 ;                 [:message "msgB"]]}
 ```
 
-### rubberbuf.ast-postprocessing/mapify
+### rubberbuf.ast-postprocess/mapify
 
 Transforms the vector structure of the AST into a map of maps; meant to be used after `unnest`.
 
 Example:
 ```clj
-(rubberbuf.ast-postprocessing/mapify
+(rubberbuf.ast-postprocess/mapify
   {"p1.proto"
    [[:syntax "proto2"]
     [:package "my.package.ns"]

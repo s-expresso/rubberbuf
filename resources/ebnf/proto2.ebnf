@@ -23,7 +23,7 @@ groupName = #'[A-Z_][a-zA-Z0-9_]*';
 group = label <'group'> groupName <'='> fieldNumber messageBody;
 stream = <'stream'> streamName <'('> messageType <','> messageType <')'> (( '{' { option | <emptyStatement> } '}') | <';'> );
 extend = <'extend'> messageType <'{'> {field | group | <emptyStatement>} <'}'>;
-extensions = <'extensions'> ranges <';'>;
+extensions = <'extensions'> ranges [ <'['> fieldOptions <']'> ] <';'>;
 
 (* proto2 only: 'required' *)
 label = 'required' | 'optional' | 'repeated';

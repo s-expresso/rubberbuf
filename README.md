@@ -87,12 +87,12 @@ will yield
                                             ["default" 5]]]
     [:message "MsgB"
       [:field :optional :uint32 "field_b1" 1 nil]
-      [:extensions 1 2 [1000 2000]]
+      [:extensions 1 2 [1000 2000] nil]
       [:field+ :optional :bool "my.package.ns/MsgA.ext_1" 1000 nil]]
     [:field :repeated "my.package.ns/MsgA.MsgB" "field_a3" 3 nil]]]}
 ```
 With the following note worthy characteristics:
-* `[:field ...]` and `[:enumField ...]` has a `nil` at the end if it has no field option
+* `[:field ...]` , `[:enumField ...]` and `[:extensions ...]` has a `nil` at the end if it has no field option
 * `[:field ...]` of primitive type uses a keyword like `:sint32`
 * `[:field ...]` of message/enum type uses string like `"MsgA"` 
 
@@ -118,7 +118,7 @@ If `:normalize false`, you will get the following:
                                            ["default" 5]]]
    [:message "MsgB"
     [:field :optional :uint32 "field_b1" 1 nil]
-    [:extensions 1 2 [1000 2000]]]
+    [:extensions 1 2 [1000 2000] nil]]
    [:field :repeated "MsgB" "field_a3" 3 nil]
    [:extend "MsgB"
     [:field :optional :bool "ext_1" 1000 nil]]]]}
@@ -181,7 +181,7 @@ Example:
      [:reserved-ranges 2 15 [9 11] [40 536870911]]
      [:reserved-names "FOO" "BAR"]]
     [:message "ReqABC"
-     [:extensions [4 1000]]
+     [:extensions [4 1000] nil]
      [:field+ :optional :string "my.ns.ext" 4 nil]]
     [:message "RespABC"]
     [:service
@@ -212,7 +212,7 @@ Example:
 ;    :reserved-names ["FOO" "BAR"]},
 ;   "my.package.ns/ReqABC"
 ;   {:context :message
-;    :extensions [[4 1000]]
+;    :extensions [[4 1000] nil]
 ;    :fields {"my.ns.ext" {:context :optional, :type :string, :is-extension true,:fid 4, :options nil}}},
 ;   "my.package.ns/RespABC" {:context :message},
 ;   "my.package.ns/svc"

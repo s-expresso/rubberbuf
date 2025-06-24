@@ -42,7 +42,7 @@ message MsgA {
                                              ["default" 5]]]
      [:message "MsgB"
       [:field :optional :uint32 "field_b1" 1 nil]
-      [:extensions 1 2 [1000 2000]]]
+      [:extensions 1 2 [1000 2000] nil]]
      [:field :repeated "MsgB" "field_a3" 3 nil]
      [:extend "MsgB"
       [:field :optional :bool "ext_1" 1000 nil]]]]})
@@ -65,7 +65,7 @@ message MsgA {
                                              ["default" 5]]]
      [:message "MsgB"
       [:field :optional :uint32 "field_b1" 1 nil]
-      [:extensions 1 2 [1000 2000]]
+      [:extensions 1 2 [1000 2000] nil]
       [:field+ :optional :bool "my.package.ns/MsgA.ext_1" 1000 nil]]
      [:field :repeated "my.package.ns/MsgA.MsgB" "field_a3" 3 nil]]]})
 

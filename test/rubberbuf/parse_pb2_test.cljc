@@ -113,6 +113,12 @@ message msg {
   reserved 100, 200 to 299;
   extensions 777, 888, 10000 to max;
   extensions 1000 to 2000;
+  extensions 2001 to 2002 [
+    declaration = {
+      number: 500,
+      full_name: '.my.package.event_annotations',
+      type: '.logs.proto.ValidationAnnotations',
+      reserved: true }];
 
   extend msg_somewhere {
     optional uint32 int32_val = 1000;
@@ -145,8 +151,12 @@ message msg {
     [:reserved-names "name1" "name2" "name3"]
     [:reserved-names "name4" "name5" "name6"]
     [:reserved-ranges 100 [200 299]]
-    [:extensions 777 888 [10000 536870911]]
-    [:extensions [1000 2000]]
+    [:extensions 777 888 [10000 536870911] nil]
+    [:extensions [1000 2000] nil]
+    [:extensions [2001 2002] ["declaration" {"number" 500,
+                                             "full_name" ".my.package.event_annotations",
+                                             "type" ".logs.proto.ValidationAnnotations",
+                                             "reserved" :true}]]
     [:extend "msg_somewhere"
      [:field :optional :uint32 "int32_val" 1000 nil]
      [:field :repeated :uint64 "int64_val" 1001 nil]]]])

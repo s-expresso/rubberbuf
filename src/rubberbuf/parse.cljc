@@ -82,6 +82,17 @@
        (clojure.walk/prewalk-replace {"max" 536870911}) ; max field number 2^29-1
        (vec)))
 
+(defn- xform-extensions
+  "xform
+      [[:range 10] [:range 20 30] [:range 40 \"max\"] <[options]>]"
+  [& args]
+  (let [[ranges options] (if (not= :range (-> args last first))
+                           [(drop-last args) (last args)]
+                           [args [nil]])]
+    (-> [:extensions]
+        (into (xform-ranges ranges))
+        (into options))))
+
 (defn- xform-names
   "xform ... of [:reserved-names ...] where ...
     [:fieldName :xyz] [:fieldName :abc]"
@@ -174,7 +185,7 @@
     :enum #(make-enum %1 (into [] %&))
     :message #(make-message %1 %&)
     :service #(make-service %1 (into [] %&))
-    :extensions (fn [& args] (into [:extensions] (xform-ranges args)))
+    :extensions xform-extensions
     :reserved-ranges (fn [& args] (into [:reserved-ranges] (xform-ranges args)))
     :reserved-names xform-names
     ; field

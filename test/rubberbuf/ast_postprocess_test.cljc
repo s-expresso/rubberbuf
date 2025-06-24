@@ -37,7 +37,11 @@
      "Msg"
      [:field :required :string "msg" 1 nil]
      [:mapField :int32 :string "map_field" 2 nil]
-     [:oneof "identifier" [:oneofField :string "name" 3 nil] [:oneofField :int32 "id" 4 nil]]]
+     [:oneof "identifier" [:oneofField :string "name" 3 nil] [:oneofField :int32 "id" 4 nil]]
+     [:extensions 500 ["declaration" {"number" 500,
+                                      "full_name" ".my.package.event_annotations",
+                                      "type" ".logs.proto.ValidationAnnotations",
+                                      "reserved" :true}]]]
     [:enum
      "enm"
      [:option "allow_alias" :true]
@@ -49,7 +53,7 @@
      [:reserved-ranges 2 15 [9 11] [40 536870911]]
      [:reserved-names "FOO" "BAR"]]
     [:message "ReqABC"
-     [:extensions [4 1000]]
+     [:extensions [4 1000] nil]
      [:field+ :optional :string "my.ns.ext" 4 nil]]
     [:message "RespABC"]
     [:service
@@ -69,6 +73,10 @@
       :oneof-fields
       {"name" {:context :oneof-field, :type :string, :fid 3, :options nil},
        "id" {:context :oneof-field, :type :int32, :fid 4, :options nil}}}}
+    :extensions [500 ["declaration" {"number" 500,
+                                     "full_name" ".my.package.event_annotations",
+                                     "type" ".logs.proto.ValidationAnnotations",
+                                     "reserved" :true}]]
     :file-options []},
    "my.package.ns/enm"
    {:context :enum,
@@ -86,7 +94,7 @@
    "my.package.ns/ReqABC"
    {:context :message
     :syntax "proto2",
-    :extensions [[4 1000]]
+    :extensions [[4 1000] nil]
     :fields {"my.ns.ext" {:context :optional, :type :string, :is-extension true,:fid 4, :options nil}}
     :file-options []},
    "my.package.ns/RespABC" {:context :message

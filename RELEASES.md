@@ -1,5 +1,6 @@
 Releases
 ========
+* postprocess: mapify: duplicate field options into every enum, msg or svc entry
 
 # v0.3.1
 * editions: fix parsing `optional` keyword

@@ -128,19 +128,18 @@
 (defn- mapify-enm|msg|svc [enm|msg|svc syntax package form]
   (let [name (->full-name package (second form))
         content (drop 2 form)]
-    {name ^{:syntax syntax}(into {:context enm|msg|svc}
-                                 (reduce mapify-content {} content))}))
+    {name (into {:context enm|msg|svc,
+                 :syntax syntax}
+                (reduce mapify-content {} content))}))
 
 (defn- mapify-ast
   [ast]
-  (loop [idx 0, syntax 3, package "", options [], reg {}]
+  (loop [idx 0, syntax "proto3", package "", options [], reg {}]
     (if (>= idx (count ast))
-      (as-> (if (empty? options) {} {:options options}) $
-            (conj $ (meta ast))
-            (with-meta reg $))
+      (update-vals reg #(conj % {:file-options options})) ; duplicate field options into every enum, msg or svc entry
       (let [form (nth ast idx)]
         (condp = (first form)
-          :syntax  (recur (inc idx) (keyword (last form)) package     options                      reg)
+          :syntax  (recur (inc idx) (last form)           package     options                      reg)
           :package (recur (inc idx) syntax                (last form) options                      reg)
           :option  (recur (inc idx) syntax                package     (conj options (drop 1 form)) reg)
           :message (recur (inc idx) syntax                package     options                      (conj reg (mapify-enm|msg|svc :message syntax package form)))

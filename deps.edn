@@ -35,7 +35,7 @@
                     :exec-fn deps-deploy.deps-deploy/deploy
                     :exec-args {:installer :remote
                                 :sign-releases? false
-                                :artifact "target/rubberbuf-0.3.1.jar"}}
+                                :artifact "target/rubberbuf-0.3.2.jar"}}
 
            :write-ebnf-cljc {:exec-fn rubberbuf.tool/write-ebnf-cljc
                              :exec-args nil}}}

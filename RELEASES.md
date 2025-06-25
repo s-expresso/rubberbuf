@@ -1,5 +1,7 @@
 Releases
 ========
+
+# v0.3.2
 * postprocess: mapify: duplicate field options into every enum, msg or svc entry
 * (BREAKING) parse: parse extensions 'option' https://github.com/s-expresso/rubberbuf/issues/7
   - appended to `[:extensions ...]` as last element

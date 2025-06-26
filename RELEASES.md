@@ -3,7 +3,7 @@ Releases
 
 # v0.3.2
 * postprocess: mapify: duplicate field options into every enum, msg or svc entry
-* (BREAKING) parse: parse extensions 'option' https://github.com/s-expresso/rubberbuf/issues/7
+* Fix [#7](https://github.com/s-expresso/rubberbuf/issues/7): (BREAKING) parse: parse extensions 'option' 
   - appended to `[:extensions ...]` as last element
   - `nil` is appended if 'option' is not set.
 
@@ -11,7 +11,7 @@ Releases
 * editions: fix parsing `optional` keyword
 
 # v0.3.0
-* proto: support protobuf editions syntax https://github.com/s-expresso/rubberbuf/issues/6
+* proto: support protobuf editions syntax [#6](https://github.com/s-expresso/rubberbuf/issues/6)
 
 # v0.2.2
 * postprocess: preserve field ordering after mapify
